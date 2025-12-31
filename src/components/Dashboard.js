@@ -1,8 +1,9 @@
-import React from 'react';
-import { Container } from 'react-bootstrap';
-
+import React, { useState } from 'react';
+import { Container, Button } from 'react-bootstrap';
+import Post from './Post';
 
 function Dashboard({appData}) {
+  const [showPostModal, setShowPostModal] = useState(false);
 
   return (
     <Container 
@@ -20,7 +21,11 @@ function Dashboard({appData}) {
       }}
     >
      <h1 style={{ color: 'white'}}>Home Page</h1>
+     <Button onClick={() => setShowPostModal(true)} style={{ marginBottom: '16px' }}>
+       Create Post
+     </Button>
      <button onClick={()=>{ appData.logout()}}>Logout</button>
+     <Post show={showPostModal} onHide={() => setShowPostModal(false)}  appData={appData}/>
     </Container>
   );
 }
