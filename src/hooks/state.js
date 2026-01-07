@@ -1,5 +1,6 @@
 // Global imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { getHydratedPosts } from '../services/post';
 // import { useQueryParam, StringParam } from 'use-query-params'
 import useLocalStorageState from 'use-local-storage-state'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +16,7 @@ function useAppState () {
   })
   const [userData, setUserData] = useState(lsState.userData)
   const [loggedInAlreadyChecked, setLoggedInAlreadyChecked] = useState(false)
-
+  const [posts, setPosts] = useState([])
 
   console.log('lsState: ', lsState)
  
@@ -64,6 +65,19 @@ function useAppState () {
   }, [userData, navigate, loggedInAlreadyChecked])
 
  
+    // Request all posts from the server
+    const updatePosts = useCallback(async () => {
+      try {
+        const result = await getHydratedPosts(userData.token);
+        console.log(`updatePosts() result: ${JSON.stringify(result.data, null, 2)}`);
+        const posts = result.posts;
+        console.log(`posts: ${JSON.stringify(posts, null, 2)}`);
+        setPosts(posts);
+      } catch (e) {
+        console.warn('Error in post/updatePosts()', e.message)
+        throw e
+      }
+    }, [userData]);
 
 
   return {
@@ -74,6 +88,8 @@ function useAppState () {
     userData,
     setUserData,
     logout,
+    updatePosts,
+    posts,
   }
 }
 
