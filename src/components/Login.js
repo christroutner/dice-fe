@@ -1,3 +1,6 @@
+/**
+ *  Login component
+ */
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +15,7 @@ function Login({ appData}) {
   const [rememberMe, setRememberMe] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Handle mobile view
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
