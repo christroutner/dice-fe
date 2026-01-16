@@ -7,6 +7,7 @@ import ImageModal from './ImageModal';
 import { updatePost } from '../services/post';
 import MarkdownFormat from './MarkdownFormat';
 function NewsCard({ post, isMobile, onCommentClick, appData }) {
+  console.log('NewsCard() post: ', post);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -168,7 +169,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
           fontSize: isMobile ? '15px' : '16px',
           color: '#374151',
           lineHeight: '1.6',
-          marginBottom: post.images && post.images.length > 0 ? '16px' : '20px',
+          marginBottom: post.mediaUrls && post.mediaUrls.length > 0 ? '16px' : '20px',
           whiteSpace: 'pre-wrap'
         }}
       >
@@ -202,9 +203,10 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
       </div>
 
       {/* Image Gallery */}
-      {post.images && post.images.length > 0 && (
+      {post.mediaUrls && post.mediaUrls.length > 0 && (
         <ImageGallery
-          images={post.images}
+          token={appData?.userData?.token}
+          images={post.mediaUrls}
           isMobile={isMobile}
           onImageClick={(image, index) => {
             setSelectedImageIndex(index);
@@ -358,14 +360,15 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
       </div>
 
       {/* Image Modal */}
-      {post.images && post.images.length > 0 && (
+      {post.mediaUrls && post.mediaUrls.length > 0 && (
         <ImageModal
           show={showImageModal}
           onHide={() => {
             setShowImageModal(false);
           }}
-          images={post.images}
+          images={post.mediaUrls}
           initialIndex={selectedImageIndex}
+          token={appData?.userData?.token}
         />
       )}
     </div>

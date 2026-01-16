@@ -3,17 +3,23 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import UppyDashboard from './UppyDashboard';
 import OverType, { defaultToolbarButtons } from 'overtype';
 import { createPost } from '../services/post';
 import { toast } from 'react-toastify';
+import { uploadFile } from '../services/files';
+import config from '../config';
 
 function Post({ show, onHide, appData }) {
   // State variables
   const [postText, setPostText] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showMediaDashboard, setShowMediaDashboard] = useState(false);
+  const [loading , setLoading ] = useState(false)
   const editorRef = useRef(null);
   const editorInstanceRef = useRef(null);
-
+  const uppyDashboardRef = useRef(null);
+  
   // Handle mobile view
   useEffect(() => {
     const handleResize = () => {
@@ -68,19 +74,40 @@ function Post({ show, onHide, appData }) {
   // Handle post creation
   const handlePost = async () => {
     try {
+      setLoading(true)
       const { userData } = appData;
       const { user } = userData;
 
+
+      const token = userData.token;
+
+      let mediaUrls = [];
+      // make media upload
+      if (uppyDashboardRef.current) {
+        const uploadedFiles = uppyDashboardRef.current.getFiles()
+        for (const file of uploadedFiles) {
+          const uploadedFileResponse = await uploadFile({ file: file, token });
+          const url = `${config.pmaServer}/files/${uploadedFileResponse.fileRef}`
+          mediaUrls.push(url);
+        }
+
+      }
       const postObj = {
         ownerId: user._id,
-        postContent: postText
+        postContent: postText,
+        mediaUrls: mediaUrls
       }
-      await createPost({ postObj, token: userData.token });
+
+      await createPost({ postObj, token });
       handleClose();
       // Update posts global state with the new post
       appData.updatePosts();
+      setLoading(false)
+
       toast.success('Post created successfully');
-    } catch (e) {
+    }
+    catch (e) {
+      setLoading(false)
       toast.error('Post creation failed');
       throw e
     }
@@ -255,47 +282,58 @@ function Post({ show, onHide, appData }) {
             }}
           >
             {/* Photo/Video/Product button */}
-            <button
-              type="button"
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                padding: '10px 16px',
-                backgroundColor: '#f3f4f6',
-                border: '2px solid #e5e7eb',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#1e3a5f',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#e5e7eb';
-                e.target.style.borderColor = '#d1d5db';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#f3f4f6';
-                e.target.style.borderColor = '#e5e7eb';
-              }}
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
+            {!showMediaDashboard && (
+              <button
+                type="button"
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  padding: '10px 16px',
+                  backgroundColor: '#f3f4f6',
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#1e3a5f',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#e5e7eb';
+                  e.target.style.borderColor = '#d1d5db';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#f3f4f6';
+                  e.target.style.borderColor = '#e5e7eb';
+                }}
+                onClick={() => setShowMediaDashboard(!showMediaDashboard)}
               >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              Photo/Video/Product
-            </button>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                Photo/Video/Product
+              </button>
+            )}
+            {showMediaDashboard && !loading &&(
+              <>
+                <UppyDashboard
+                  ref={uppyDashboardRef}
+                  maxNumberOfFiles={config.maxPostMediaFiles}
+                  closeBtnCallback={() => setShowMediaDashboard(false)} />
+              </>
+            )}
           </div>
         </Modal.Body>
 
