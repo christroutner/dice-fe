@@ -1,7 +1,8 @@
 import React from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import AuthMediaViewer from './AuthMediaViewer';  
+function ImageGallery({ images, isMobile, onImageClick, token }) {
 
-function ImageGallery({ images, isMobile, onImageClick }) {
   if (!images || images.length === 0) {
     return null;
   }
@@ -104,8 +105,9 @@ function ImageGallery({ images, isMobile, onImageClick }) {
               }
             }}
           >
-            <Image
-              src={displayImages[0].url}
+            <AuthMediaViewer
+              src={displayImages[0]}
+              token={token}
               alt={displayImages[0].alt || 'Image 1'}
               fluid
               style={{
@@ -151,8 +153,9 @@ function ImageGallery({ images, isMobile, onImageClick }) {
                   }
                 }}
               >
-                <Image
-                  src={displayImages[1].url}
+                <AuthMediaViewer
+                  src={displayImages[1]}
+                  token={token}
                   alt={displayImages[1].alt || 'Image 2'}
                   fluid
                   style={{
@@ -192,8 +195,9 @@ function ImageGallery({ images, isMobile, onImageClick }) {
                   }
                 }}
               >
-                <Image
-                  src={displayImages[2].url}
+                <AuthMediaViewer
+                  src={displayImages[2]}
+                  token={token}
                   alt={displayImages[2].alt || 'Image 3'}
                   fluid
                   style={{
@@ -245,10 +249,12 @@ function ImageGallery({ images, isMobile, onImageClick }) {
                   }
                 }}
               >
-                <Image
-                  src={image.url}
+                <AuthMediaViewer
+                  src={image}
+                  token={token}
                   alt={image.alt || `Image ${index + 1}`}
                   fluid
+                  previewMode={true}
                   style={{
                     width: '100%',
                     height: '100%',

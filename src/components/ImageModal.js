@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Image } from 'react-bootstrap';
-
-function ImageModal({ show, onHide, images, initialIndex = 0 }) {
+import { Modal, Button } from 'react-bootstrap';
+import AuthMediaViewer from './AuthMediaViewer';
+function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -172,8 +172,9 @@ function ImageModal({ show, onHide, images, initialIndex = 0 }) {
           )}
 
           {/* Image */}
-          <Image
-            src={currentImage.url}
+          <AuthMediaViewer
+            src={currentImage}
+            token={token}
             alt={currentImage.alt || `Image ${currentIndex + 1}`}
             fluid
             className="d-block"
