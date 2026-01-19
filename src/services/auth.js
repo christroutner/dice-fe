@@ -53,3 +53,24 @@ export const authUser = async ({ email, password }) => {
     throw e
   }
 }
+
+export const updateUser = async ({ userId, userObj, token }) => {
+  try {
+    const options = {
+      method: 'PUT',
+      url: `${SERVER}/users/${userId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        user: userObj
+      }
+    }
+    const result = await axios(options)
+    return result.data
+  } catch (e) {
+    console.warn('Error in auth/updateUser()', e.message)
+    throw e
+  }
+}

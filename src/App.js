@@ -6,6 +6,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Clickwrap from './components/Clickwrap';
 import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
 import useAppState from './hooks/state';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup" element={<SignUp appData={appData}/>} />
         <Route path="/clickwrap" element={<Clickwrap appData={appData} />} />
         <Route path="/dashboard" element={<Dashboard appData={appData}/>} />
+        <Route path="/profile" element={<Profile appData={appData}/>} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <ToastContainer />
