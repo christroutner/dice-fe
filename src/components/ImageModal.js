@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import AuthMediaViewer from './AuthMediaViewer';
 function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -113,19 +114,7 @@ function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
               e.target.style.transform = 'scale(1)';
             }}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <X size={20} />
           </Button>
 
           {/* Previous Button */}
@@ -156,18 +145,7 @@ function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
                 e.target.style.transform = 'translateY(-50%) scale(1)';
               }}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
+              <ChevronLeft size={24} />
             </Button>
           )}
 
@@ -215,18 +193,7 @@ function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
                 e.target.style.transform = 'translateY(-50%) scale(1)';
               }}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
+              <ChevronRight size={24} />
             </Button>
           )}
 

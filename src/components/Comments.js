@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Modal } from 'react-bootstrap';
 import { getCommentsByParent, createComment } from '../services/comment';
 import MarkdownFormat from './MarkdownFormat';
-
+import AuthMediaViewer from './AuthMediaViewer';
 
 function Comments({ show, onHide, post, appData }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -13,7 +13,13 @@ function Comments({ show, onHide, post, appData }) {
   const [comments, setComments] = useState([]);
   const [postExpanded, setPostExpanded] = useState(false);
   const [expandedComments, setExpandedComments] = useState({});
+  const [pictureSrc, setPictureSrc] = useState(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    const pictureSrc = post?.ownerId?.profilePictureUrl;
+    setPictureSrc(pictureSrc);
+  }, [post]);
 
   // Handle mobile view
   useEffect(() => {
@@ -217,7 +223,7 @@ function Comments({ show, onHide, post, appData }) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                <div
+              { !pictureSrc && <div
                   style={{
                     width: '40px',
                     height: '40px',
@@ -235,7 +241,10 @@ function Comments({ show, onHide, post, appData }) {
                   }}
                 >
                   {post.authorInitial}
-                </div>
+                </div>}
+                { pictureSrc && (
+                  <AuthMediaViewer src={pictureSrc} token={appData?.userData?.token} alt="Profile Picture" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'contain' }} />
+                )}
                 <div style={{ flexGrow: 1 }}>
                   <div
                     style={{
@@ -326,24 +335,27 @@ function Comments({ show, onHide, post, appData }) {
                     }}
                   >
                     {/* Comment Avatar */}
-                    <div
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#ffffff',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        flexShrink: 0,
-                        boxShadow: '0 2px 6px rgba(66, 133, 244, 0.3)'
-                      }}
-                    >
-                      {comment.authorInitial}
-                    </div>
+                     {!comment.ownerId?.profilePictureUrl && <div
+                        style={{
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#ffffff',
+                          fontWeight: '600',
+                          fontSize: '14px',
+                          flexShrink: 0,
+                          boxShadow: '0 2px 6px rgba(66, 133, 244, 0.3)'
+                        }}
+                      >
+                        {comment.authorInitial}
+                      </div>}
+                      { comment.ownerId?.profilePictureUrl && (
+                        <AuthMediaViewer src={comment.ownerId?.profilePictureUrl} token={appData?.userData?.token} alt="Profile Picture" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'contain' }} />
+                      )}
 
                     {/* Comment Content */}
                     <div style={{ flexGrow: 1, minWidth: 0 }}>

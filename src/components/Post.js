@@ -3,6 +3,7 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { Image } from 'lucide-react';
 import UppyDashboard from './UppyDashboard';
 import OverType, { defaultToolbarButtons } from 'overtype';
 import { createPost } from '../services/post';
@@ -311,18 +312,7 @@ function Post({ show, onHide, appData }) {
                 }}
                 onClick={() => setShowMediaDashboard(!showMediaDashboard)}
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
+                <Image size={20} />
                 Photo/Video/Product
               </button>
             )}

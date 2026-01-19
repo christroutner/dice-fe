@@ -3,10 +3,13 @@
  */
 import React, { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { User } from 'lucide-react';
 import Post from './Post';
 import NewsFeed from './NewsFeed';
 
 function Dashboard({appData}) {
+  const navigate = useNavigate();
   const [showPostModal, setShowPostModal] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -126,6 +129,33 @@ function Dashboard({appData}) {
             >
               Create Post
             </Button>
+            <button
+              type="button"
+              onClick={() => navigate('/profile')}
+              style={{
+                padding: isMobile ? '8px 16px' : '10px 20px',
+                background: '#f3f4f6',
+                border: 'none',
+                borderRadius: '10px',
+                fontSize: isMobile ? '13px' : '14px',
+                fontWeight: '600',
+                color: '#374151',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#e5e7eb';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#f3f4f6';
+              }}
+            >
+              <User size={16} />
+              Profile
+            </button>
             <button
               type="button"
               onClick={() => appData.logout()}
