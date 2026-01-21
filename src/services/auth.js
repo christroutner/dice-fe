@@ -54,6 +54,24 @@ export const authUser = async ({ email, password }) => {
   }
 }
 
+export const getUser = async ({ userId, token }) => {
+  try {
+    const options = {
+      method: 'GET',
+      url: `${SERVER}/users/${userId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const result = await axios(options)
+    return result.data
+  } catch (e) {
+    console.warn('Error in auth/getUser()', e.message)
+    throw e
+  }
+}
+
 export const updateUser = async ({ userId, userObj, token }) => {
   try {
     const options = {
