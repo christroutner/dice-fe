@@ -252,9 +252,9 @@ function UserProfile({ appData }) {
                 width: '100%'
               }}
             >
-              {user.bannerPictureUrl && (
+              {user.bannerUrl && (
                 <AuthMediaViewer 
-                  src={user.bannerPictureUrl} 
+                  src={user.bannerUrl} 
                   token={appData?.userData?.token} 
                   alt="Banner" 
                   style={{ 

@@ -18,17 +18,26 @@ function Profile({ appData }) {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [activeTab, setActiveTab] = useState('profile'); // 'profile' or 'password'
-  
+
   // Form states
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [website, setWebsite] = useState('');
+  const [about, setAbout] = useState('');
+
   const [showProfilePictureModal, setShowProfilePictureModal] = useState(false);
   const [fileToUpload, setFileToUpload] = useState(null); // file to upload to the server
   const [profilePictureSrc, setProfilePictureSrc] = useState(null);
+
+  const [showBannerPictureModal, setShowBannerPictureModal] = useState(false);
+  const [bannerPictureSrc, setBannerPictureSrc] = useState(null);
+  const [bannerToUpload, setBannerToUpload] = useState(null);
+
 
   // Handle mobile view
   useEffect(() => {
@@ -43,9 +52,14 @@ function Profile({ appData }) {
   // Initialize form with user data
   useEffect(() => {
     if (userData?.user) {
+      console.log('User Data: ', userData.user);
       setEmail(userData.user.email || '');
       setName(userData.user.name || '');
       setProfilePictureSrc(userData.user.profilePictureUrl);
+      setBannerPictureSrc(userData.user.bannerUrl);
+      setPhoneNumber(userData.user.phoneNumber || '');
+      setWebsite(userData.user.website || '');
+      setAbout(userData.user.about || '');
     }
   }, [userData]);
 
@@ -61,11 +75,21 @@ function Profile({ appData }) {
         const uploadedFileResponse = await uploadFile({ file: fileToUpload.data, token });
         url = `${config.pmaServer}/files/${uploadedFileResponse.fileRef}`
       }
+      let bannerUrl = userData?.user?.bannerPictureUrl;
+      // Upload banner picture if bannerToUpload is not null
+      if (bannerToUpload) {
+        const uploadedFileResponse = await uploadFile({ file: bannerToUpload.data, token });
+        bannerUrl = `${config.pmaServer}/files/${uploadedFileResponse.fileRef}`
+      }
       // Create profile object
       const profileObj = {
         name: name,
         email: email,
-        profilePictureUrl: url
+        profilePictureUrl: url,
+        bannerUrl: bannerUrl,
+        phoneNumber: phoneNumber,
+        website: website,
+        about: about
       }
 
       // Update user profile
@@ -76,7 +100,6 @@ function Profile({ appData }) {
       updateLocalStorage({ userData: newUserData });
       setProfilePictureSrc(url);
       setFileToUpload(null);
-      setProfilePicturePreview(null);
       toast.success('Profile updated successfully');
     } catch (error) {
       toast.error('Error updating profile: ' + error.message);
@@ -113,7 +136,7 @@ function Profile({ appData }) {
     }
   }
 
-  // handle uppy changes
+  // handle uppy changes for profile picture  
   const onChangeFileAdded = (file) => {
     console.log('File added: ', file);
     try {
@@ -121,7 +144,6 @@ function Profile({ appData }) {
         /**Revoke the object URL */
         setProfilePictureSrc(userData?.user?.profilePictureUrl);
         setFileToUpload(null);
-        setProfilePicturePreview(null);
         return;
       }
       /**Create a new object URL */
@@ -129,7 +151,6 @@ function Profile({ appData }) {
         URL.revokeObjectURL(fileToUpload.data);
       }
       const imageSrc = window.URL.createObjectURL(file.data);
-      setProfilePicturePreview(imageSrc);
       setProfilePictureSrc(imageSrc);
       setShowProfilePictureModal(false);
       setFileToUpload(file);
@@ -137,15 +158,31 @@ function Profile({ appData }) {
       console.error('Error creating object URL: ', error);
     }
   }
+  // handle uppy changes for banner picture
+  const onChangeBannerFileAdded = (file) => {
+    console.log('File added: ', file);
+    try {
+      if (!file) {
+        setBannerPictureSrc(userData?.user?.bannerPictureUrl);
+        setBannerToUpload(null);
+        return;
+      }
+      if (bannerToUpload) {
+        URL.revokeObjectURL(bannerToUpload.data);
+      }
+      const imageSrc = window.URL.createObjectURL(file.data);
+      setBannerPictureSrc(imageSrc);
+      setShowBannerPictureModal(false);
+      setBannerToUpload(file);
+    } catch (error) {
+      console.error('Error creating object URL for banner picture: ', error);
+    }
+  }
 
-  // Handle profile picture change via camera button
-  const handleProfilePictureChange = (e) => {
-    setShowProfilePictureModal(true);
-  };
 
   return (
-    <Container 
-      fluid 
+    <Container
+      fluid
       style={{
         minHeight: '100vh',
         display: 'flex',
@@ -309,6 +346,19 @@ function Profile({ appData }) {
                 position: 'relative'
               }}
             >
+
+              {bannerPictureSrc && (
+                <AuthMediaViewer
+                  src={bannerPictureSrc}
+                  token={userData.token}
+                  alt="Banner"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
+              )}
               <button
                 type="button"
                 style={{
@@ -336,6 +386,7 @@ function Profile({ appData }) {
                   e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
                   e.target.style.transform = 'scale(1)';
                 }}
+                onClick={() => setShowBannerPictureModal(true)}
               >
                 <Upload size={16} />
                 Edit Banner
@@ -376,27 +427,17 @@ function Profile({ appData }) {
                     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
                   }}
                 >
-                  {profilePicturePreview ? (
-                    <img
-                      src={profilePicturePreview}
-                      alt="Profile"
+               { profilePictureSrc && userData?.token ? (
+                    <AuthMediaViewer
+                      src={profilePictureSrc}
+                      token={userData.token}
+                      alt="Profile Picture"
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                  ) : profilePictureSrc && userData?.token ? (
-                    <AuthMediaViewer 
-                      src={profilePictureSrc} 
-                      token={userData.token} 
-                      alt="Profile Picture" 
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
                         objectFit: 'cover',
                         borderRadius: '50%'
-                      }} 
+                      }}
                     />
                   ) : (
                     name ? name.charAt(0).toUpperCase() : 'U'
@@ -404,7 +445,7 @@ function Profile({ appData }) {
                 </div>
                 <button
                   type="button"
-                  onClick={handleProfilePictureChange}
+                  onClick={()=>{ setShowProfilePictureModal(true)}}
                   style={{
                     position: 'absolute',
                     bottom: '8px',
@@ -643,6 +684,135 @@ function Profile({ appData }) {
                   </p>
                 </div>
 
+                {/* Phone Number Field */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      color: '#1e3a5f',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Enter your phone number"
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      backgroundColor: '#f9fafb',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#1e3a5f',
+                      transition: 'all 0.3s ease',
+                      outline: 'none'
+                    }}
+
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.backgroundColor = '#ffffff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#e5e7eb';
+                      e.target.style.backgroundColor = '#f9fafb';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
+                </div>
+
+                {/* URL Field */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      color: '#1e3a5f',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    URL
+                  </label>
+                  <input
+                    type="url"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="Enter any website URL"
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      backgroundColor: '#f9fafb',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#1e3a5f',
+                      transition: 'all 0.3s ease',
+                      outline: 'none'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.backgroundColor = '#ffffff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#e5e7eb';
+                      e.target.style.backgroundColor = '#f9fafb';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
+                </div>
+
+                {/* About Field */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      color: '#1e3a5f',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    About
+                  </label>
+                  <textarea
+                    value={about}
+                    onChange={(e) => setAbout(e.target.value)}
+                    placeholder="Tell us about yourself"
+                    rows={4}
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      backgroundColor: '#f9fafb',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      color: '#1e3a5f',
+                      transition: 'all 0.3s ease',
+                      outline: 'none',
+                      resize: 'none',
+                      fontFamily: 'inherit'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.backgroundColor = '#ffffff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#e5e7eb';
+                      e.target.style.backgroundColor = '#f9fafb';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
+                </div>
+
                 {/* Save Button */}
                 <Button
                   type="submit"
@@ -856,6 +1026,18 @@ function Profile({ appData }) {
         </ModalBody>
         <ModalFooter>
           <Button onClick={() => setShowProfilePictureModal(false)}>Close</Button>
+        </ModalFooter>
+      </Modal>
+      {/* Banner Picture Modal */}
+      <Modal show={showBannerPictureModal} onHide={() => setShowBannerPictureModal(false)}>
+        <ModalHeader>
+          <ModalTitle>Change Banner Picture</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+          <UppyDashboard ref={uppyDashboardRef} onChange={onChangeBannerFileAdded} allowedFileTypes={['image/*']} maxNumberOfFiles={1} />
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={() => setShowBannerPictureModal(false)}>Close</Button>
         </ModalFooter>
       </Modal>
     </Container>
