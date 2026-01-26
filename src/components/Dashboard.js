@@ -4,14 +4,16 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { User } from 'lucide-react';
+import { User, Users, Menu } from 'lucide-react';
 import Post from './Post';
 import NewsFeed from './NewsFeed';
+import MobileMenu from './MobileMenu';
 
 function Dashboard({appData}) {
   const navigate = useNavigate();
   const [showPostModal, setShowPostModal] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -97,54 +99,22 @@ function Dashboard({appData}) {
           </h1>
 
           {/* Action Buttons */}
-          <div
-            style={{
-              display: 'flex',
-              gap: '8px',
-              alignItems: 'center'
-            }}
-          >
-            <Button
-              onClick={() => setShowPostModal(true)}
-              style={{
-                padding: isMobile ? '8px 16px' : '10px 20px',
-                background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
-                border: 'none',
-                borderRadius: '10px',
-                fontSize: isMobile ? '13px' : '14px',
-                fontWeight: '600',
-                color: '#ffffff',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
-              }}
-            >
-              Create Post
-            </Button>
+          {isMobile ? (
             <button
               type="button"
-              onClick={() => navigate('/profile')}
+              onClick={() => setShowMobileMenu(true)}
               style={{
-                padding: isMobile ? '8px 16px' : '10px 20px',
+                padding: '8px',
                 background: '#f3f4f6',
                 border: 'none',
                 borderRadius: '10px',
-                fontSize: isMobile ? '13px' : '14px',
-                fontWeight: '600',
-                color: '#374151',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px'
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px'
               }}
               onMouseEnter={(e) => {
                 e.target.style.backgroundColor = '#e5e7eb';
@@ -153,33 +123,120 @@ function Dashboard({appData}) {
                 e.target.style.backgroundColor = '#f3f4f6';
               }}
             >
-              <User size={16} />
-              Profile
+              <Menu size={24} color="#374151" />
             </button>
-            <button
-              type="button"
-              onClick={() => appData.logout()}
+          ) : (
+            <div
               style={{
-                padding: isMobile ? '8px 16px' : '10px 20px',
-                background: '#f3f4f6',
-                border: 'none',
-                borderRadius: '10px',
-                fontSize: isMobile ? '13px' : '14px',
-                fontWeight: '600',
-                color: '#374151',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#e5e7eb';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#f3f4f6';
+                display: 'flex',
+                gap: '8px',
+                alignItems: 'center'
               }}
             >
-              Logout
-            </button>
-          </div>
+              <Button
+                onClick={() => setShowPostModal(true)}
+                style={{
+                  padding: '10px 20px',
+                  background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#ffffff',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
+                }}
+              >
+                Create Post
+              </Button>
+              <button
+                type="button"
+                onClick={() => navigate('/members')}
+                style={{
+                  padding: '10px 20px',
+                  background: '#f3f4f6',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#374151',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#e5e7eb';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#f3f4f6';
+                }}
+              >
+                <Users size={16} />
+                Members
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/profile')}
+                style={{
+                  padding: '10px 20px',
+                  background: '#f3f4f6',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#374151',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#e5e7eb';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#f3f4f6';
+                }}
+              >
+                <User size={16} />
+                Profile
+              </button>
+              <button
+                type="button"
+                onClick={() => appData.logout()}
+                style={{
+                  padding: '10px 20px',
+                  background: '#f3f4f6',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#374151',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#e5e7eb';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = '#f3f4f6';
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -197,6 +254,12 @@ function Dashboard({appData}) {
       </div>
 
       <Post show={showPostModal} onHide={() => setShowPostModal(false)} appData={appData} />
+      <MobileMenu 
+        appData={appData} 
+        show={showMobileMenu} 
+        onHide={() => setShowMobileMenu(false)}
+        onCreatePost={() => setShowPostModal(true)}
+      />
     </Container>
   );
 }

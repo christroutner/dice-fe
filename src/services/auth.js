@@ -92,3 +92,21 @@ export const updateUser = async ({ userId, userObj, token }) => {
     throw e
   }
 }
+
+export const getAllUsers = async ({ token }) => {
+  try {
+    const options = {
+      method: 'GET',
+      url: `${SERVER}/users`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const result = await axios(options)
+    return result.data
+  } catch (e) {
+    console.warn('Error in auth/getAllUsers()', e.message)
+    throw e
+  }
+}
