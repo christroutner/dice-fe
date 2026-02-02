@@ -2,6 +2,7 @@
  *  Component to display a news card
  */
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MoreVertical, Heart, MessageCircle, Share2 } from 'lucide-react';
 import ImageGallery from './ImageGallery';
 import ImageModal from './ImageModal';
@@ -9,12 +10,22 @@ import { updatePost } from '../services/post';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
 function NewsCard({ post, isMobile, onCommentClick, appData }) {
+  const navigate = useNavigate();
   console.log('NewsCard() post: ', post);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [pictureSrc, setPictureSrc] = useState(post?.ownerId?.profilePictureUrl);
   console.log('pictureSrc: ', pictureSrc);
+
+  // Handle navigation to user profile
+  const handleUserClick = (e) => {
+    e.stopPropagation();
+    const userId = post?.ownerId?._id || post?.ownerId;
+    if (userId) {
+      navigate(`/user/${userId}`);
+    }
+  };
 
 
   useEffect(() => {
@@ -90,6 +101,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
         {/* Default Avatar */}
         {!pictureSrc && (
           <div
+            onClick={handleUserClick}
             style={{
               width: isMobile ? '48px' : '56px',
               height: isMobile ? '48px' : '56px',
@@ -103,7 +115,15 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
               fontSize: isMobile ? '18px' : '20px',
               marginRight: '16px',
               flexShrink: 0,
-              boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)'
+              boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'scale(1)';
             }}
           >
             
@@ -111,17 +131,42 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
         )}
       {/* Profile Picture */}
         {pictureSrc && (
-          <AuthMediaViewer src={pictureSrc} token={appData?.userData?.token} alt="Profile Picture" style={{ width: isMobile ? '48px' : '56px', height: isMobile ? '48px' : '56px', borderRadius: '50%', objectFit: 'contain', marginRight: '16px' }} />
+          <div
+            onClick={handleUserClick}
+            style={{
+              cursor: 'pointer',
+              marginRight: '16px',
+              transition: 'transform 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <AuthMediaViewer src={pictureSrc} token={appData?.userData?.token} alt="Profile Picture" style={{ width: isMobile ? '48px' : '56px', height: isMobile ? '48px' : '56px', borderRadius: '50%', objectFit: 'contain' }} />
+          </div>
         )}
 
         {/* Author Info */}
         <div style={{ flexGrow: 1 }}>
           <div
+            onClick={handleUserClick}
             style={{
               fontSize: isMobile ? '16px' : '18px',
               fontWeight: '600',
               color: '#1e3a5f',
-              marginBottom: '4px'
+              marginBottom: '4px',
+              cursor: 'pointer',
+              transition: 'color 0.2s ease',
+              display: 'inline-block'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = '#4285f4';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = '#1e3a5f';
             }}
           >
             {post.ownerId?.name || post.ownerId?.email}
