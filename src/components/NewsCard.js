@@ -3,9 +3,10 @@
  */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MoreVertical, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import ImageGallery from './ImageGallery';
 import ImageModal from './ImageModal';
+import PostOptionsMenu from './PostOptionsMenu';
 import { updatePost } from '../services/post';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
@@ -71,6 +72,13 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
   const displayContent = shouldTruncate && !isExpanded 
     ? post.postContent.substring(0, charLimit) + '...'
     : post.postContent;
+  
+  // Handle edit post
+  const handleEditPost = (post) => {
+    // TODO: Implement edit functionality
+    console.log('Edit post:', post._id);
+  };
+  
   return (
     <div
       style={{
@@ -181,34 +189,12 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
           </div>
         </div>
 
-        {/* More Options */}
-        <button
-          type="button"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#6b7280',
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.2s ease',
-            width: '36px',
-            height: '36px'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#1e3a5f';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'transparent';
-            e.target.style.color = '#6b7280';
-          }}
-        >
-          <MoreVertical size={20} />
-        </button>
+        {/* More Options Dropdown */}
+        <PostOptionsMenu 
+          post={post} 
+          appData={appData} 
+          onEdit={handleEditPost}
+        />
       </div>
 
       {/* Post Content */}

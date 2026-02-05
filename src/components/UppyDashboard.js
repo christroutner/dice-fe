@@ -11,6 +11,7 @@ import '@uppy/dashboard/css/style.min.css';
 
 const UppyDashboard = forwardRef((props, ref) => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [loading, setLoading] = useState(false);
 
 
   // State variables
@@ -42,6 +43,8 @@ const UppyDashboard = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     getFiles: () => uppyInstance.getFiles().map((f) => f.data),
     cancelAll: () => uppyInstance.cancelAll(),
+    addFile: (file) => uppyInstance.addFile(file),
+    setLoading: (loading) => setLoading(loading),
   }));
 
   // Handle file added and removed
@@ -87,12 +90,16 @@ const UppyDashboard = forwardRef((props, ref) => {
         ×
       </button>
     )}
-    <Dashboard
+    {/*Add spinner on loading*/}
+
+  <Dashboard
         uppy={uppyInstance}
         proudlyDisplayPoweredByUppy={false}
         width={"100%"}
         height={isDesktop ? 350 : 200}
         hideUploadButton={true}
+        disabled={loading}
+
       />
 
     </div>
