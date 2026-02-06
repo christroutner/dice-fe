@@ -10,7 +10,9 @@ import PostOptionsMenu from './PostOptionsMenu';
 import { updatePost } from '../services/post';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
-function NewsCard({ post, isMobile, onCommentClick, appData }) {
+import { toast } from 'react-toastify';
+
+function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
   const navigate = useNavigate();
   console.log('NewsCard() post: ', post);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -55,7 +57,9 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
 
     const result = await updatePost({ postId: post._id, postObj, token: appData.userData.token });
     console.log('updatePost() result: ', result);
-    appData.updatePosts();
+    if(onUpdatePost) {
+      onUpdatePost(result.post);
+    }
   }
 
   // Date to human readable format
@@ -75,9 +79,15 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
   
   // Handle edit post
   const handleEditPost = (post) => {
-    // TODO: Implement edit functionality
-    console.log('Edit post:', post._id);
+    onUpdatePost(post);
   };
+
+
+  const copyPostToClipboard = () => {
+    const url = `${window.location.origin}/post/${post._id}`;
+    navigator.clipboard.writeText(url);
+    toast.success('Shared post URL copied to clipboard');
+  }
   
   return (
     <div
@@ -355,6 +365,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
             e.target.style.backgroundColor = 'transparent';
             e.target.style.color = '#6b7280';
           }}
+          onClick={copyPostToClipboard}
         >
           <Share2 size={20} />
           {post.shares}

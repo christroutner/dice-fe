@@ -11,13 +11,14 @@ import { toast } from 'react-toastify';
 import { uploadFile, fetchFile } from '../services/files';
 import config from '../config';
 
-function EditPost({ show, onHide, appData, post }) {
+function EditPost({ show, onHide, appData, post , onEdit}) {
   // State variables
   //console.log('post', post);
   const [postText, setPostText] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showMediaDashboard, setShowMediaDashboard] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [uppyReady, setUppyReady] = useState(true);
   const editorRef = useRef(null);
   const editorInstanceRef = useRef(null);
   const uppyDashboardRef = useRef(null);
@@ -40,6 +41,8 @@ function EditPost({ show, onHide, appData, post }) {
       if (!Array.isArray(post?.mediaUrls)) return
       if (post?.mediaUrls.length === 0) return;
 
+      setUppyReady(false);
+
       if (uppyDashboardRef.current) {
         uppyDashboardRef.current.setLoading(true);
         // Convert mediaUrls to Uppy files
@@ -51,9 +54,11 @@ function EditPost({ show, onHide, appData, post }) {
         }
         uppyDashboardRef.current.setLoading(false);
       }
+      setUppyReady(true);
     } catch (error) {
       console.error('Error loading files to Uppy Dashboard: ', error);
       toast.error('Error loading files to Uppy Dashboard: ' + error.message);
+      setUppyReady(false);
     }
   }, [post?.mediaUrls, appData.userData.token]);
 
@@ -138,8 +143,9 @@ function EditPost({ show, onHide, appData, post }) {
 
       await updatePost({ postId: post._id, postObj, token });
       handleClose();
-      // Update posts global state with the new post
-      appData.updatePosts();
+      if(onEdit) {
+        onEdit(postObj);
+      }
       setLoading(false)
 
       toast.success('Post updated successfully');
@@ -416,7 +422,7 @@ function EditPost({ show, onHide, appData, post }) {
                 : 'none',
               opacity: postText.trim() ? 1 : 0.6
             }}
-            disabled={!postText.trim()}
+            disabled={!postText.trim() || !uppyReady}
             onMouseEnter={(e) => {
               if (postText.trim()) {
                 e.target.style.transform = 'translateY(-1px)';

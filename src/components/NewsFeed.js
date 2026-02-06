@@ -95,6 +95,9 @@ function NewsFeed({ appData }) {
               setShowComments(true);
             }}
             appData={appData}
+            onUpdatePost={(post) => {
+              appData.updatePosts();
+            }}
           />
         ))}
       </div>
@@ -108,6 +111,9 @@ function NewsFeed({ appData }) {
         }}
         post={selectedPost}
         appData={appData}
+        onUpdateComments={() => {
+          appData.updatePosts();
+        }}
       />
     </Container>
   );
