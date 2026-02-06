@@ -3,13 +3,16 @@
  */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MoreVertical, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import ImageGallery from './ImageGallery';
 import ImageModal from './ImageModal';
+import PostOptionsMenu from './PostOptionsMenu';
 import { updatePost } from '../services/post';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
-function NewsCard({ post, isMobile, onCommentClick, appData }) {
+import { toast } from 'react-toastify';
+
+function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
   const navigate = useNavigate();
   console.log('NewsCard() post: ', post);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -54,7 +57,9 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
 
     const result = await updatePost({ postId: post._id, postObj, token: appData.userData.token });
     console.log('updatePost() result: ', result);
-    appData.updatePosts();
+    if(onUpdatePost) {
+      onUpdatePost(result.post);
+    }
   }
 
   // Date to human readable format
@@ -71,6 +76,19 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
   const displayContent = shouldTruncate && !isExpanded 
     ? post.postContent.substring(0, charLimit) + '...'
     : post.postContent;
+  
+  // Handle edit post
+  const handleEditPost = (post) => {
+    onUpdatePost(post);
+  };
+
+
+  const copyPostToClipboard = () => {
+    const url = `${window.location.origin}/post/${post._id}`;
+    navigator.clipboard.writeText(url);
+    toast.success('Shared post URL copied to clipboard');
+  }
+  
   return (
     <div
       style={{
@@ -181,34 +199,12 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
           </div>
         </div>
 
-        {/* More Options */}
-        <button
-          type="button"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#6b7280',
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.2s ease',
-            width: '36px',
-            height: '36px'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#1e3a5f';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'transparent';
-            e.target.style.color = '#6b7280';
-          }}
-        >
-          <MoreVertical size={20} />
-        </button>
+        {/* More Options Dropdown */}
+        <PostOptionsMenu 
+          post={post} 
+          appData={appData} 
+          onEdit={handleEditPost}
+        />
       </div>
 
       {/* Post Content */}
@@ -369,6 +365,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData }) {
             e.target.style.backgroundColor = 'transparent';
             e.target.style.color = '#6b7280';
           }}
+          onClick={copyPostToClipboard}
         >
           <Share2 size={20} />
           {post.shares}

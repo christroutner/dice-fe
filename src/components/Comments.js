@@ -7,7 +7,7 @@ import { getCommentsByParent, createComment } from '../services/comment';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
 
-function Comments({ show, onHide, post, appData }) {
+function Comments({ show, onHide, post, appData , onUpdateComments}) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState([]);
@@ -85,7 +85,9 @@ function Comments({ show, onHide, post, appData }) {
       console.log('createComment() result', result);  
       setCommentText('');
       fetchComments();
-      appData.updatePosts();
+      if(onUpdateComments) {
+        onUpdateComments();
+      }
     }
   };
   // Date to human readable format

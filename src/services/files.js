@@ -28,3 +28,21 @@ export const uploadFile = async ({ file, token }) => {
     throw e
   }
 }
+
+export const fetchFile = async ({ url, token }) => {
+  try {
+    const axiosConfig ={
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob'
+    }
+    const result = await axios.get(url, axiosConfig);
+    console.log('result', result.data);
+    return result.data;
+  }
+  catch (e) {
+    console.warn('Error in files/fetchFile()', e.message)
+    throw e
+  }
+}
