@@ -54,10 +54,6 @@ function useAppState () {
       console.log('navigating to login')
       setLoggedInAlreadyChecked(true) // prevent re-navigation
       navigate('/login')
-    }else{
-      setLoggedInAlreadyChecked(true) // prevent re-navigation
-      navigate('/dashboard')
-
     }
     }
 

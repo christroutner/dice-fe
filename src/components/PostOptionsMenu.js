@@ -107,7 +107,13 @@ function PostOptionsMenu({ post, appData, onEdit }) {
         </Dropdown.Menu>
       </Dropdown>
       {showEditPost && (
-        <EditPost show={showEditPost} onHide={() => setShowEditPost(false)} appData={appData} post={post} />
+        <EditPost 
+        show={showEditPost}
+         onHide={() => setShowEditPost(false)} 
+         appData={appData} 
+         post={post}
+         onEdit={onEdit}
+         />
       )}
     </>
   );

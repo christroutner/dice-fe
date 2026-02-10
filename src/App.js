@@ -10,13 +10,14 @@ import Profile from './components/Profile';
 import UserProfile from './components/UserProfile';
 import Members from './components/Members';
 import useAppState from './hooks/state';
+import PostView from './components/PostView';
 
 function App() {
   const appData = useAppState()
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<Login appData={appData}/>} />
         <Route path="/signup" element={<SignUp appData={appData}/>} />
         <Route path="/clickwrap" element={<Clickwrap appData={appData} />} />
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" element={<Profile appData={appData}/>} />
         <Route path="/members" element={<Members appData={appData}/>} />
         <Route path="/user/:userId" element={<UserProfile appData={appData}/>} />
+        <Route path="/post/:postId" element={<PostView appData={appData}/>} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <ToastContainer />

@@ -45,6 +45,23 @@ export const getHydratedPosts = async (token) => {
     throw e
   }
 }
+export const getHydratedPost = async (postId, token) => {
+  try {
+    const options = {
+      method: 'GET',
+      url: `${SERVER}/post/hydrated/${postId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    }
+    const result = await axios(options)
+    return result.data
+  } catch (e) {
+    console.warn('Error in post/getHydratedPost()', e.message)
+    throw e
+  }
+}
 
 
 export const updatePost = async ({ postId, postObj, token }) => {
@@ -65,6 +82,24 @@ export const updatePost = async ({ postId, postObj, token }) => {
     return result.data
   } catch (e) {
     console.warn('Error in post/updatePost()', e.message)
+    throw e
+  }
+}
+
+export const getPost = async (postId, token) => {
+  try {
+    const options = {
+      method: 'GET',
+      url: `${SERVER}/post/${postId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    }
+    const result = await axios(options)
+    return result.data
+  } catch (e) {
+    console.warn('Error in post/getPost()', e.message)
     throw e
   }
 }
