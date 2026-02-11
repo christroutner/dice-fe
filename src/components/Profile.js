@@ -1,7 +1,7 @@
 /**
  *  Profile component for user profile management
  */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef , useCallback} from 'react';
 import { Container, Button, Modal, ModalHeader, ModalBody, ModalFooter, ModalTitle } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Upload, Camera } from 'lucide-react';
@@ -17,7 +17,7 @@ function Profile({ appData }) {
   const uppyDashboardRef = useRef(null);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [activeTab, setActiveTab] = useState('profile'); // 'profile' or 'password'
+  const [activeTab, setActiveTab] = useState('profile'); // 'profile', 'password', or 'pinned'
 
   // Form states
   const [email, setEmail] = useState('');
@@ -29,6 +29,7 @@ function Profile({ appData }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [website, setWebsite] = useState('');
   const [about, setAbout] = useState('');
+  const [pinnedPostUrls, setPinnedPostUrls] = useState(['', '', '', '', '', '']);
 
   const [showProfilePictureModal, setShowProfilePictureModal] = useState(false);
   const [fileToUpload, setFileToUpload] = useState(null); // file to upload to the server
@@ -60,9 +61,39 @@ function Profile({ appData }) {
       setPhoneNumber(userData.user.phoneNumber || '');
       setWebsite(userData.user.website || '');
       setAbout(userData.user.about || '');
+      
+
+
+      // fill default pinned post urls with user pinned post urls
+      const userPinnedPostUrls = userData.user.pinnedPostUrls || [];
+      console.log('User Pinned Post Urls: ', userPinnedPostUrls);
+      const defaultPinnedPostArr = ['', '', '', '', '', ''];
+      const filledPinnedPostArr = defaultPinnedPostArr.map((url, index) => {
+        if(userPinnedPostUrls[index]) {
+          return userPinnedPostUrls[index];
+        } else {
+          return '';
+        }
+      });
+      console.log('Pinned Urls: ', filledPinnedPostArr);
+      setPinnedPostUrls(filledPinnedPostArr);
     }
   }, [userData]);
-
+  // Handle update profile
+  const handleUpdatePinnedPosts = useCallback(async (e) => {  
+    try {
+      e.preventDefault();
+      const { token , user } = userData || {};
+      const pinnedPostUrlsResponse = await updateUser({ userId: user?._id, userObj: { pinnedPostUrls }, token });
+      console.log('Pinned Posts Response: ', pinnedPostUrlsResponse);
+      const newUserData = { ...userData, user: pinnedPostUrlsResponse.user };
+      appData.setUserData(newUserData);
+      appData.updateLocalStorage({ userData: newUserData });
+      toast.success('Pinned posts updated successfully');
+    } catch (error) {
+      console.error('Error updating pinned posts:', error);
+    }
+  }, [appData, userData, pinnedPostUrls]);
   // Handle update profile
   const handleUpdateProfile = async (e) => {
     try {
@@ -94,7 +125,7 @@ function Profile({ appData }) {
 
       // Update user profile
       const profileResponse = await updateUser({ userId: userData?.user?._id, userObj: profileObj, token });
-      console.log('Profile Response: ', profileResponse);
+      //console.log('Profile Response: ', profileResponse);
       const newUserData = { ...userData, user: profileResponse.user };
       setUserData(newUserData);
       updateLocalStorage({ userData: newUserData });
@@ -350,7 +381,7 @@ function Profile({ appData }) {
               {bannerPictureSrc && (
                 <AuthMediaViewer
                   src={bannerPictureSrc}
-                  token={userData.token}
+                  token={userData?.token}
                   alt="Banner"
                   style={{
                     width: '100%',
@@ -513,25 +544,40 @@ function Profile({ appData }) {
             <div
               style={{
                 display: 'flex',
-                gap: '8px',
+                gap: isMobile ? '4px' : '8px',
                 borderBottom: '2px solid #e5e7eb',
-                marginBottom: '24px'
+                marginBottom: '24px',
+                overflowX: isMobile ? 'auto' : 'visible',
+                overflowY: 'hidden',
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
               }}
             >
+              <style>
+                {`
+                  .profile-tabs-container::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}
+              </style>
               <button
                 type="button"
                 onClick={() => setActiveTab('profile')}
+                className="profile-tabs-container"
                 style={{
-                  padding: '12px 24px',
+                  padding: isMobile ? '10px 16px' : '12px 24px',
                   background: 'none',
                   border: 'none',
                   borderBottom: activeTab === 'profile' ? '3px solid #4285f4' : '3px solid transparent',
-                  fontSize: '16px',
+                  fontSize: isMobile ? '14px' : '16px',
                   fontWeight: '600',
                   color: activeTab === 'profile' ? '#4285f4' : '#6b7280',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  marginBottom: '-2px'
+                  marginBottom: '-2px',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
                 }}
                 onMouseEnter={(e) => {
                   if (activeTab !== 'profile') {
@@ -544,22 +590,25 @@ function Profile({ appData }) {
                   }
                 }}
               >
-                Profile Information
+                {isMobile ? 'Profile' : 'Profile Information'}
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('password')}
+                className="profile-tabs-container"
                 style={{
-                  padding: '12px 24px',
+                  padding: isMobile ? '10px 16px' : '12px 24px',
                   background: 'none',
                   border: 'none',
                   borderBottom: activeTab === 'password' ? '3px solid #4285f4' : '3px solid transparent',
-                  fontSize: '16px',
+                  fontSize: isMobile ? '14px' : '16px',
                   fontWeight: '600',
                   color: activeTab === 'password' ? '#4285f4' : '#6b7280',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  marginBottom: '-2px'
+                  marginBottom: '-2px',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
                 }}
                 onMouseEnter={(e) => {
                   if (activeTab !== 'password') {
@@ -572,7 +621,38 @@ function Profile({ appData }) {
                   }
                 }}
               >
-                Password & Security
+                {isMobile ? 'Password' : 'Password & Security'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('pinned')}
+                className="profile-tabs-container"
+                style={{
+                  padding: isMobile ? '10px 16px' : '12px 24px',
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: activeTab === 'pinned' ? '3px solid #4285f4' : '3px solid transparent',
+                  fontSize: isMobile ? '14px' : '16px',
+                  fontWeight: '600',
+                  color: activeTab === 'pinned' ? '#4285f4' : '#6b7280',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  marginBottom: '-2px',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== 'pinned') {
+                    e.target.style.color = '#4285f4';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== 'pinned') {
+                    e.target.style.color = '#6b7280';
+                  }
+                }}
+              >
+                Pinned Posts
               </button>
             </div>
 
@@ -1011,6 +1091,110 @@ function Profile({ appData }) {
                   Update Password
                 </Button>
               </form>
+            )}
+
+            {/* Pinned Posts Tab */}
+            {activeTab === 'pinned' && (
+              <div>
+                <h3
+                  style={{
+                    fontSize: '20px',
+                    fontWeight: '700',
+                    color: '#1e3a5f',
+                    marginBottom: '24px'
+                  }}
+                >
+                  Pinned Posts
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: '#6b7280',
+                    marginBottom: '24px',
+                    lineHeight: '1.5'
+                  }}
+                >
+                  Add up to 6 post URLs to display them prominently on your profile. Posts will appear below your profile header.
+                </p>
+
+                {/* Pinned Post URL Fields */}
+                {pinnedPostUrls.map((url, index) => (
+                  <div key={index} style={{ marginBottom: '20px' }}>
+                    <label
+                      style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        color: '#1e3a5f',
+                        marginBottom: '8px'
+                      }}
+                    >
+                      Post URL {index + 1}
+                    </label>
+                    <input
+                      type="url"
+                      value={url}
+                      onChange={(e) => {
+                        const newUrls = [...pinnedPostUrls];
+                        newUrls[index] = e.target.value;
+                        setPinnedPostUrls(newUrls);
+                      }}
+                      placeholder={`https://example.com/post/${index + 1}`}
+                      style={{
+                        width: '100%',
+                        padding: '14px 16px',
+                        backgroundColor: '#f9fafb',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '10px',
+                        fontSize: '15px',
+                        color: '#1e3a5f',
+                        transition: 'all 0.3s ease',
+                        outline: 'none'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#4285f4';
+                        e.target.style.backgroundColor = '#ffffff';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#e5e7eb';
+                        e.target.style.backgroundColor = '#f9fafb';
+                        e.target.style.boxShadow = 'none';
+                      }}
+                    />
+                  </div>
+                ))}
+                {/* Update Pinned Posts Button */}
+                <Button
+                  type="submit"
+                  style={{
+                    width: '100%',
+                    padding: '14px',
+                    background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                    border: 'none',
+                    borderRadius: '10px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 15px rgba(66, 133, 244, 0.4)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 6px 20px rgba(66, 133, 244, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.4)';
+                  }}
+                  onClick={handleUpdatePinnedPosts}
+                >
+                  Update Pinned Posts
+                </Button>
+               
+              </div>
             )}
           </div>
         </div>
