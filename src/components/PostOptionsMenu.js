@@ -3,20 +3,27 @@
  */
 import React, { useState }  from 'react';
 import { Dropdown } from 'react-bootstrap';
-import { MoreVertical, Edit } from 'lucide-react';
+import { MoreVertical, Edit, Trash } from 'lucide-react';
 import EditPost from './EditPost';
+import DeletePost from './DeletePost';
 
-function PostOptionsMenu({ post, appData, onEdit }) {
+function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
   // Check if current user is the post owner
   const isPostOwner = appData?.userData?.user?._id === (post.ownerId?._id || post.ownerId);
   const [showEditPost, setShowEditPost] = useState(false);
+  const [showDeletePost, setShowDeletePost] = useState(false);
   if (!isPostOwner) {
     return null;
   }
 
-  const handleEdit = (e) => {
+  const openEditPost = (e) => {
     e.stopPropagation();
     setShowEditPost(true);
+  };
+
+  const openDeletePost = (e) => {
+    e.stopPropagation();
+    setShowDeletePost(true);
   };
 
   return (
@@ -77,7 +84,7 @@ function PostOptionsMenu({ post, appData, onEdit }) {
           }}
         >
           <Dropdown.Item
-            onClick={handleEdit}
+            onClick={openEditPost}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -104,6 +111,34 @@ function PostOptionsMenu({ post, appData, onEdit }) {
             <Edit size={16} style={{ flexShrink: 0, lineHeight: 0 }} />
             <span style={{ lineHeight: '16px' }}>Edit</span>
           </Dropdown.Item>
+          <Dropdown.Item
+            onClick={openDeletePost}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '10px 14px',
+              fontSize: '14px',
+              color: '#1e3a5f',
+              fontWeight: '500',
+              borderRadius: '8px',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer',
+              border: 'none',
+              backgroundColor: 'transparent'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#f3f4f6';
+              e.currentTarget.style.color = '#4285f4';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#1e3a5f';
+            }}
+          >
+            <Trash size={16} style={{ flexShrink: 0, lineHeight: 0 }} />
+            <span style={{ lineHeight: '16px' }}>Delete</span>
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
       {showEditPost && (
@@ -114,6 +149,15 @@ function PostOptionsMenu({ post, appData, onEdit }) {
          post={post}
          onEdit={onEdit}
          />
+      )}
+      {showDeletePost && (
+        <DeletePost 
+        show={showDeletePost}
+        onHide={() => setShowDeletePost(false)}
+        appData={appData}
+        post={post}
+        onDelete={onDelete}
+        />
       )}
     </>
   );
