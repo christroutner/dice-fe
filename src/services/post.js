@@ -103,3 +103,22 @@ export const getPost = async (postId, token) => {
     throw e
   }
 }
+
+export const deletePost = async (postId, token) => {
+  try {
+    const options = {
+      method: 'DELETE',
+      url: `${SERVER}/post/${postId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    }
+    const result = await axios(options)
+    return result.data
+  } catch (e) {
+    console.log(e)
+    console.warn('Error in post/deletePost()', e.message)
+    throw e
+  }
+}

@@ -127,7 +127,7 @@ function PostView({ appData }) {
               onUpdatePost={fetchPostData}
             />
           )}
-          {loaded && !post && <div style={{ color: '#ffffff' }}>Post not found</div>}
+          {loaded && !post && <div style={{ color: '#ffffff' , textAlign: 'center' }}>Post not found</div>}
         </div>
       </div>
       {showComments && (

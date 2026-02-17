@@ -5,7 +5,7 @@ import { getHydratedPosts } from '../services/post';
 import useLocalStorageState from 'use-local-storage-state'
 import { useNavigate } from 'react-router-dom'
 
-function useAppState () {
+function useAppState() {
   const navigate = useNavigate()
 
   // Load Local storage Data
@@ -19,7 +19,7 @@ function useAppState () {
   const [posts, setPosts] = useState([])
 
   console.log('lsState: ', lsState)
- 
+
 
   const removeLocalStorageItem = removeItem
 
@@ -41,39 +41,39 @@ function useAppState () {
   }
 
   useEffect(() => {
-    const verifyAuth =()=>{
-         // verify if the user is logged in
-         console.log('userData', userData)
-    const isLoggedIn = userData && userData.token
-    console.log('isLogeedIn', isLoggedIn, loggedInAlreadyChecked)
+    const verifyAuth = () => {
+      // verify if the user is logged in
+      console.log('userData', userData)
+      const isLoggedIn = userData && userData.token
+      console.log('isLogeedIn', isLoggedIn, loggedInAlreadyChecked)
 
-    if(loggedInAlreadyChecked) return
+      if (loggedInAlreadyChecked) return
 
-    if (!isLoggedIn ) {
-          // if the user is not logged in, navigate to the login page
-      console.log('navigating to login')
-      setLoggedInAlreadyChecked(true) // prevent re-navigation
-      navigate('/login')
-    }
+      if (!isLoggedIn) {
+        // if the user is not logged in, navigate to the login page
+        console.log('navigating to login')
+        setLoggedInAlreadyChecked(true) // prevent re-navigation
+        navigate('/login')
+      }
     }
 
     verifyAuth()
   }, [userData, navigate, loggedInAlreadyChecked])
 
- 
-    // Request all posts from the server
-    const updatePosts = useCallback(async () => {
-      try {
-        const result = await getHydratedPosts(userData.token);
-        console.log(`updatePosts() result: ${JSON.stringify(result.data, null, 2)}`);
-        const posts = result.posts;
-        console.log(`posts: ${JSON.stringify(posts, null, 2)}`);
-        setPosts(posts);
-      } catch (e) {
-        console.warn('Error in post/updatePosts()', e.message)
-        throw e
-      }
-    }, [userData]);
+
+  // Request all posts from the server
+  const updatePosts = useCallback(async () => {
+    try {
+      const result = await getHydratedPosts(userData.token);
+      console.log(`updatePosts() result: ${JSON.stringify(result.data, null, 2)}`);
+      const posts = result.posts;
+      console.log(`posts: ${JSON.stringify(posts, null, 2)}`);
+      setPosts(posts);
+    } catch (e) {
+      console.warn('Error in post/updatePosts()', e.message)
+      throw e
+    }
+  }, [userData]);
 
 
   return {

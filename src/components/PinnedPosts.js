@@ -42,11 +42,15 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
         const hydratedPosts = [];
         for (const postUrl of postsUrls) {
           if (postUrl) {
-            const postId = postUrl.split('/').pop();
-            const postResponse = await getHydratedPost(postId, appData?.userData?.token);
-            if (postResponse.post) {
-              const post = postResponse.post;
-              hydratedPosts.push(post);
+            try {
+              const postId = postUrl.split('/').pop();
+              const postResponse = await getHydratedPost(postId, appData?.userData?.token);
+              if (postResponse.post) {
+                const post = postResponse.post;
+                hydratedPosts.push(post);
+              }
+            } catch (error) {
+              // skip error if post cannot be retrieved
             }
           }
         }
