@@ -8,7 +8,7 @@ import FormData from 'form-data';
 const SERVER =  config.pmaServer
 
 
-export const uploadFile = async ({ file, token }) => {
+export const uploadFile = async ({ file, token , progressCallback}) => {
   // try auth
   try {
 
@@ -17,8 +17,17 @@ export const uploadFile = async ({ file, token }) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      onUploadProgress: (progressEvent) => {
+        if (progressCallback) {
+          // Calc upload progress percent
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          progressCallback(percentCompleted);
+        }
+      },
     }
-    console.log('axiosConfig:', axiosConfig);
+    //console.log('axiosConfig:', axiosConfig);
     form.append("file", file, file.name);
 
     const result = await axios.post(`${SERVER}/files/upload`, form, axiosConfig);

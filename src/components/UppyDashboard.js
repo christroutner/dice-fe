@@ -4,6 +4,7 @@
 import React, { useEffect, forwardRef, useImperativeHandle, useMemo, useState } from "react";
 import Uppy from "@uppy/core";
 import Dashboard from '@uppy/react/dashboard';
+import { Spinner } from "react-bootstrap";
 import '@uppy/core/css/style.css';
 import '@uppy/dashboard/css/style.min.css';
 
@@ -15,7 +16,7 @@ const UppyDashboard = forwardRef((props, ref) => {
 
 
   // State variables
-  const { onChange, maxFileSizeMB , closeBtnCallback , allowedFileTypes, maxNumberOfFiles} = props;
+  const { onChange, maxFileSizeMB, closeBtnCallback, allowedFileTypes, maxNumberOfFiles } = props;
 
   // Handle desktop view
   useEffect(() => {
@@ -36,7 +37,7 @@ const UppyDashboard = forwardRef((props, ref) => {
       },
       autoProceed: false,
     });
-  }, [maxFileSizeMB,allowedFileTypes, maxNumberOfFiles]);
+  }, [maxFileSizeMB, allowedFileTypes, maxNumberOfFiles]);
 
   // Handle imperative handle
   // Allows the parent component to access the this declared functions
@@ -63,36 +64,36 @@ const UppyDashboard = forwardRef((props, ref) => {
   return (
     // Uppy Dashboard component
     <div style={{ width: "100%", height: "100%", position: 'relative' }}>
-    {closeBtnCallback && (
+      {closeBtnCallback && (
         <button
-        type="button"
-        style={{
-          zIndex: 10,
-          position: 'absolute',
-          right: '10px',
-          top: '10px',
-          background: 'none',
-          border: 'none',
-          fontSize: '30px',
-          color: '#6b7280',
-          cursor: 'pointer',
-          padding: '0',
-          width: '32px',
-          height: '32px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '50%',
-          transition: 'all 0.2s ease',
-        }}
-        onClick={closeBtnCallback}
-      >
-        ×
-      </button>
-    )}
-    {/*Add spinner on loading*/}
+          type="button"
+          style={{
+            zIndex: 10,
+            position: 'absolute',
+            right: '10px',
+            top: '10px',
+            background: 'none',
+            border: 'none',
+            fontSize: '30px',
+            color: '#6b7280',
+            cursor: 'pointer',
+            padding: '0',
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '50%',
+            transition: 'all 0.2s ease',
+          }}
+          onClick={closeBtnCallback}
+        >
+          ×
+        </button>
+      )}
+      {/*Add spinner on loading*/}
 
-  <Dashboard
+      {!loading && <Dashboard
         uppy={uppyInstance}
         proudlyDisplayPoweredByUppy={false}
         width={"100%"}
@@ -100,7 +101,12 @@ const UppyDashboard = forwardRef((props, ref) => {
         hideUploadButton={true}
         disabled={loading}
 
-      />
+      />}
+      {loading && (
+        <div style={{ width:'100%' , textAlign:'center'}}> 
+          <Spinner style={{ margin: '0 auto'}} />
+        </div>
+      )}
 
     </div>
   );

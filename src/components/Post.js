@@ -2,7 +2,7 @@
  *  Component to create a post
  */
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, ProgressBar } from 'react-bootstrap';
 import { Image } from 'lucide-react';
 import UppyDashboard from './UppyDashboard';
 import OverType, { defaultToolbarButtons } from 'overtype';
@@ -16,11 +16,13 @@ function Post({ show, onHide, appData }) {
   const [postText, setPostText] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showMediaDashboard, setShowMediaDashboard] = useState(false);
-  const [loading , setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [loadingSteps, setloadingSteps] = useState(null)
+  const [uploadProgress, setUploadProgress] = useState(0)
   const editorRef = useRef(null);
   const editorInstanceRef = useRef(null);
   const uppyDashboardRef = useRef(null);
-  
+
   // Handle mobile view
   useEffect(() => {
     const handleResize = () => {
@@ -72,6 +74,13 @@ function Post({ show, onHide, appData }) {
     onHide();
   };
 
+  const resetStates=()=>{
+    setLoading(false)
+    setloadingSteps(null)
+    setUploadProgress(0)
+    setShowMediaDashboard(false)
+  }
+
   // Handle post creation
   const handlePost = async () => {
     try {
@@ -86,8 +95,11 @@ function Post({ show, onHide, appData }) {
       // make media upload
       if (uppyDashboardRef.current) {
         const uploadedFiles = uppyDashboardRef.current.getFiles()
+        let index = 0
         for (const file of uploadedFiles) {
-          const uploadedFileResponse = await uploadFile({ file: file, token });
+          index++
+          setloadingSteps(`Uploading files ${index}/${uploadedFiles.length}`)
+          const uploadedFileResponse = await uploadFile({ file: file, token, progressCallback: setUploadProgress });
           const url = `${config.pmaServer}/files/${uploadedFileResponse.fileRef}`
           mediaUrls.push(url);
         }
@@ -103,12 +115,11 @@ function Post({ show, onHide, appData }) {
       handleClose();
       // Update posts global state with the new post
       appData.updatePosts();
-      setLoading(false)
-
+      resetStates()
       toast.success('Post created successfully');
     }
     catch (e) {
-      setLoading(false)
+      resetStates()
       toast.error('Post creation failed');
       throw e
     }
@@ -244,6 +255,7 @@ function Post({ show, onHide, appData }) {
                 }}
               >
                 <select
+                  disabled={loading}
                   style={{
                     border: 'none',
                     backgroundColor: '#f3f4f6',
@@ -263,14 +275,14 @@ function Post({ show, onHide, appData }) {
           </div>
 
           {/* OverType markdown editor */}
-          <div
+          {!loading && <div
             ref={editorRef}
             style={{
               minHeight: isMobile ? '120px' : '160px',
               border: 'none',
               outline: 'none'
             }}
-          />
+          />}
 
           {/* Action buttons */}
           <div
@@ -283,7 +295,7 @@ function Post({ show, onHide, appData }) {
             }}
           >
             {/* Photo/Video/Product button */}
-            {!showMediaDashboard && (
+            {!showMediaDashboard && !loading &&(
               <button
                 type="button"
                 style={{
@@ -316,7 +328,7 @@ function Post({ show, onHide, appData }) {
                 Photo/Video/Product
               </button>
             )}
-            {showMediaDashboard && !loading &&(
+            {showMediaDashboard && !loading && (
               <>
                 <UppyDashboard
                   ref={uppyDashboardRef}
@@ -324,79 +336,101 @@ function Post({ show, onHide, appData }) {
                   closeBtnCallback={() => setShowMediaDashboard(false)} />
               </>
             )}
+
+            {loading && (
+              <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
+                <div style={{ marginBottom: '10px', fontWeight: 'bold', color: '#555' }}>
+                  {loadingSteps || "Loading..."}
+                </div>
+
+                {uploadProgress !== 0 && (
+                  <ProgressBar
+                    animated
+                    now={uploadProgress}
+                    label={`${uploadProgress}%`}
+                    variant={uploadProgress === 100 ? "success" : "primary"}
+                  />
+                )}
+
+              </div>
+            )}
+
           </div>
         </Modal.Body>
 
-        <Modal.Footer
-          style={{
-            borderTop: '1px solid #e5e7eb',
-            padding: isMobile ? '16px 20px' : '20px 24px',
-            backgroundColor: '#ffffff',
-            borderRadius: '0 0 8px 8px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '12px'
-          }}
-        >
-          <Button
-            variant="secondary"
-            onClick={handleClose}
+        {!loading && (
+          <Modal.Footer
             style={{
-              padding: '10px 24px',
-              backgroundColor: '#f3f4f6',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '15px',
-              fontWeight: '600',
-              color: '#374151',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#e5e7eb';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = '#f3f4f6';
+              borderTop: '1px solid #e5e7eb',
+              padding: isMobile ? '16px 20px' : '20px 24px',
+              backgroundColor: '#ffffff',
+              borderRadius: '0 0 8px 8px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '12px'
             }}
           >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              padding: '10px 24px',
-              background: postText.trim()
-                ? 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)'
-                : 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '15px',
-              fontWeight: '600',
-              color: '#ffffff',
-              cursor: postText.trim() ? 'pointer' : 'not-allowed',
-              transition: 'all 0.3s ease',
-              boxShadow: postText.trim()
-                ? '0 2px 8px rgba(66, 133, 244, 0.3)'
-                : 'none',
-              opacity: postText.trim() ? 1 : 0.6
-            }}
-            disabled={!postText.trim()}
-            onMouseEnter={(e) => {
-              if (postText.trim()) {
-                e.target.style.transform = 'translateY(-1px)';
-                e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (postText.trim()) {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
-              }
-            }}
-            onClick={handlePost}
-          >
-            Post
-          </Button>
-        </Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              style={{
+                padding: '10px 24px',
+                backgroundColor: '#f3f4f6',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '15px',
+                fontWeight: '600',
+                color: '#374151',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#e5e7eb';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#f3f4f6';
+              }}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              style={{
+                padding: '10px 24px',
+                background: postText.trim()
+                  ? 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)'
+                  : 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '15px',
+                fontWeight: '600',
+                color: '#ffffff',
+                cursor: postText.trim() ? 'pointer' : 'not-allowed',
+                transition: 'all 0.3s ease',
+                boxShadow: postText.trim()
+                  ? '0 2px 8px rgba(66, 133, 244, 0.3)'
+                  : 'none',
+                opacity: postText.trim() ? 1 : 0.6
+              }}
+              disabled={!postText.trim()}
+              onMouseEnter={(e) => {
+                if (postText.trim()) {
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (postText.trim()) {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
+                }
+              }}
+              onClick={handlePost}
+            >
+              Post
+            </Button>
+          </Modal.Footer>
+        )}
       </Modal>
     </>
   );
