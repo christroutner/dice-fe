@@ -1,0 +1,36 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Clickwrap from './components/Clickwrap';
+import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
+import UserProfile from './components/UserProfile';
+import Members from './components/Members';
+import useAppState from './hooks/state';
+import PostView from './components/PostView';
+
+function App() {
+  const appData = useAppState()
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<Login appData={appData}/>} />
+        <Route path="/signup" element={<SignUp appData={appData}/>} />
+        <Route path="/clickwrap" element={<Clickwrap appData={appData} />} />
+        <Route path="/dashboard" element={<Dashboard appData={appData}/>} />
+        <Route path="/profile" element={<Profile appData={appData}/>} />
+        <Route path="/members" element={<Members appData={appData}/>} />
+        <Route path="/user/:userId" element={<UserProfile appData={appData}/>} />
+        <Route path="/post/:postId" element={<PostView appData={appData}/>} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+      <ToastContainer />
+    </>
+  );
+}
+
+export default App;
