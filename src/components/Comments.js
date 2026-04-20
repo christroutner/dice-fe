@@ -16,6 +16,9 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
   const [pictureSrc, setPictureSrc] = useState(null);
   const inputRef = useRef(null);
 
+  const currentUser = appData?.userData?.user;
+  const currentUserProfilePictureUrl = currentUser?.profilePictureUrl;
+
   useEffect(() => {
     const pictureSrc = post?.ownerId?.profilePictureUrl;
     setPictureSrc(pictureSrc);
@@ -162,7 +165,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
             style={{
               fontSize: isMobile ? '18px' : '20px',
               fontWeight: '700',
-              color: '#1e3a5f',
+            color: 'var(--color-bark)',
               margin: 0,
               width: '100%',
               textAlign: 'center'
@@ -194,7 +197,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
             }}
             onMouseEnter={(e) => {
               e.target.style.backgroundColor = '#f3f4f6';
-              e.target.style.color = '#1e3a5f';
+              e.target.style.color = 'var(--color-bark)';
             }}
             onMouseLeave={(e) => {
               e.target.style.backgroundColor = 'transparent';
@@ -230,7 +233,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                     width: '40px',
                     height: '40px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                    background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -239,10 +242,10 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                     fontSize: '16px',
                     marginRight: '12px',
                     flexShrink: 0,
-                    boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)'
+                    boxShadow: 'var(--shadow-sm)'
                   }}
                 >
-                  {post.authorInitial}
+                  {(post.ownerId?.name || post.ownerId?.email || 'U').charAt(0).toUpperCase()}
                 </div>}
                 { pictureSrc && (
                   <AuthMediaViewer src={pictureSrc} token={appData?.userData?.token} alt="Profile Picture" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'contain' }} />
@@ -252,7 +255,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                     style={{
                       fontSize: '15px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '2px'
                     }}
                   >
@@ -284,7 +287,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                     style={{
                       background: 'none',
                       border: 'none',
-                      color: '#4285f4',
+                      color: 'var(--color-forest)',
                       cursor: 'pointer',
                       fontSize: '13px',
                       fontWeight: '600',
@@ -294,10 +297,10 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                       transition: 'color 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.color = '#1e3a5f';
+                      e.target.style.color = 'var(--color-moss)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.color = '#4285f4';
+                      e.target.style.color = 'var(--color-forest)';
                     }}
                   >
                     {postExpanded ? 'Read less' : 'Read more'}
@@ -342,7 +345,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                           width: '36px',
                           height: '36px',
                           borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                          background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -350,10 +353,10 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                           fontWeight: '600',
                           fontSize: '14px',
                           flexShrink: 0,
-                          boxShadow: '0 2px 6px rgba(66, 133, 244, 0.3)'
+                          boxShadow: 'var(--shadow-sm)'
                         }}
                       >
-                        {comment.authorInitial}
+                        {(comment.ownerId?.name || comment.ownerId?.email || 'U').charAt(0).toUpperCase()}
                       </div>}
                       { comment.ownerId?.profilePictureUrl && (
                         <AuthMediaViewer src={comment.ownerId?.profilePictureUrl} token={appData?.userData?.token} alt="Profile Picture" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'contain' }} />
@@ -373,7 +376,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                           style={{
                             fontSize: '14px',
                             fontWeight: '600',
-                            color: '#1e3a5f',
+                            color: 'var(--color-bark)',
                             marginBottom: '4px'
                           }}
                         >
@@ -395,7 +398,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                               style={{
                                 background: 'none',
                                 border: 'none',
-                                color: '#4285f4',
+                                color: 'var(--color-forest)',
                                 cursor: 'pointer',
                                 fontSize: '13px',
                                 fontWeight: '600',
@@ -405,10 +408,10 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                                 transition: 'color 0.2s ease'
                               }}
                               onMouseEnter={(e) => {
-                                e.target.style.color = '#1e3a5f';
+                                e.target.style.color = 'var(--color-moss)';
                               }}
                               onMouseLeave={(e) => {
-                                e.target.style.color = '#4285f4';
+                                e.target.style.color = 'var(--color-forest)';
                               }}
                             >
                               {expandedComments[comment._id] ? 'Read less' : 'Read more'}
@@ -450,24 +453,40 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
             }}
           >
             <form onSubmit={handlePostComment} style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
-              <div
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  fontWeight: '600',
-                  fontSize: '14px',
-                  flexShrink: 0,
-                  boxShadow: '0 2px 6px rgba(66, 133, 244, 0.3)'
-                }}
-              >
-                U
-              </div>
+              {currentUserProfilePictureUrl ? (
+                <AuthMediaViewer
+                  src={currentUserProfilePictureUrl}
+                  token={appData?.userData?.token}
+                  alt="Your profile picture"
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    flexShrink: 0,
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    flexShrink: 0,
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                >
+                  {(currentUser?.name || currentUser?.email || 'U').charAt(0).toUpperCase()}
+                </div>
+              )}
               <div
                 style={{
                   flex: 1,
@@ -489,12 +508,12 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                     border: '2px solid #e5e7eb',
                     borderRadius: '20px',
                     fontSize: '14px',
-                    color: '#1e3a5f',
+                    color: 'var(--color-charcoal)',
                     outline: 'none',
                     transition: 'all 0.2s ease'
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = '#4285f4';
+                    e.target.style.borderColor = 'var(--color-forest)';
                     e.target.style.backgroundColor = '#ffffff';
                   }}
                   onBlur={(e) => {
@@ -509,7 +528,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                 style={{
                   padding: '10px 20px',
                   background: commentText.trim()
-                    ? 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)'
+                    ? 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)'
                     : '#d1d5db',
                   border: 'none',
                   borderRadius: '20px',
@@ -518,20 +537,20 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                   color: '#ffffff',
                   cursor: commentText.trim() ? 'pointer' : 'not-allowed',
                   transition: 'all 0.2s ease',
-                  boxShadow: commentText.trim() ? '0 2px 8px rgba(66, 133, 244, 0.3)' : 'none',
+                  boxShadow: commentText.trim() ? 'var(--shadow-sm)' : 'none',
                   opacity: commentText.trim() ? 1 : 0.6,
                   whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={(e) => {
                   if (commentText.trim()) {
                     e.target.style.transform = 'translateY(-1px)';
-                    e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
+                    e.target.style.boxShadow = 'var(--shadow-hover)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (commentText.trim()) {
                     e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
+                    e.target.style.boxShadow = 'var(--shadow-sm)';
                   }
                 }}
               >

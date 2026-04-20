@@ -98,12 +98,12 @@ function MobileMenu({ appData, show, onHide, onCreatePost }) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
-          <Menu size={24} color="#1e3a5f" />
+          <Menu size={24} color="var(--color-bark)" />
           <Offcanvas.Title
             style={{
               fontSize: '20px',
               fontWeight: '700',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               margin: 0
             }}
           >
@@ -130,7 +130,7 @@ function MobileMenu({ appData, show, onHide, onCreatePost }) {
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#1e3a5f';
+            e.target.style.color = 'var(--color-bark)';
           }}
           onMouseLeave={(e) => {
             e.target.style.backgroundColor = 'transparent';
@@ -163,8 +163,8 @@ function MobileMenu({ appData, show, onHide, onCreatePost }) {
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   backgroundColor: active ? '#f3f4f6' : 'transparent',
-                  borderLeft: active ? '4px solid #4285f4' : '4px solid transparent',
-                  color: item.isDanger ? '#dc3545' : active ? '#4285f4' : '#374151',
+                  borderLeft: active ? '4px solid var(--color-forest)' : '4px solid transparent',
+                  color: item.isDanger ? '#dc3545' : active ? 'var(--color-forest)' : '#374151',
                   textDecoration: 'none'
                 }}
                 onMouseEnter={(e) => {
@@ -180,7 +180,7 @@ function MobileMenu({ appData, show, onHide, onCreatePost }) {
               >
                 <Icon 
                   size={22} 
-                  color={item.isDanger ? '#dc3545' : active ? '#4285f4' : '#6b7280'} 
+                  color={item.isDanger ? '#dc3545' : active ? 'var(--color-forest)' : '#6b7280'} 
                 />
                 <span
                   style={{

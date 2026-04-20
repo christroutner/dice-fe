@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import logo from '../logo.svg';
+import logo from '../assets/lta-logo.png';
 import { createUser } from '../services/auth';
 import { toast } from 'react-toastify';
 
@@ -49,7 +49,7 @@ function SignUp({ appData }) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)',
+        background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)',
         padding: '20px',
         position: 'relative',
         overflow: 'hidden'
@@ -63,7 +63,7 @@ function SignUp({ appData }) {
           right: '-10%',
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-gold) 18%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -75,7 +75,7 @@ function SignUp({ appData }) {
           left: '-10%',
           width: '500px',
           height: '500px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-forest) 16%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -104,17 +104,17 @@ function SignUp({ appData }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: '30px',
-            margin: '0 auto 30px auto'
+            marginBottom: isMobile ? '34px' : '0px',
+            margin: `0 auto ${isMobile ? '34px' : '0px'} auto`
           }}
         >
           <img 
             src={logo} 
             alt="Logo" 
             style={{
-              width: isMobile ? '120px' : '150px',
+              width: isMobile ? '180px' : '240px',
               height: 'auto',
-              maxHeight: isMobile ? '40px' : '50px',
+              maxHeight: isMobile ? '64px' : '150px',
               objectFit: 'contain'
             }}
           />
@@ -125,13 +125,13 @@ function SignUp({ appData }) {
           style={{
             fontSize: isMobile ? '28px' : '36px',
             fontWeight: '700',
-            color: '#1e3a5f',
+            color: 'var(--color-bark)',
             marginBottom: '8px',
             textAlign: 'center',
             letterSpacing: '-0.5px'
           }}
         >
-          Marketplace App
+          TheLocalTrade.app
         </h1>
 
         {/* Tagline */}
@@ -153,7 +153,7 @@ function SignUp({ appData }) {
             style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '600',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               marginBottom: '8px',
               textAlign: 'left'
             }}
@@ -173,7 +173,7 @@ function SignUp({ appData }) {
             <button
               type="button"
               style={{
-                color: '#4285f4',
+                color: 'var(--color-forest)',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 fontWeight: '500',
@@ -184,10 +184,10 @@ function SignUp({ appData }) {
                 font: 'inherit'
               }}
               onMouseEnter={(e) => {
-                e.target.style.color = '#1e3a5f';
+                e.target.style.color = 'var(--color-moss)';
               }}
               onMouseLeave={(e) => {
-                e.target.style.color = '#4285f4';
+                e.target.style.color = 'var(--color-forest)';
               }}
               onClick={() => {
                 navigate('/login');
@@ -203,7 +203,7 @@ function SignUp({ appData }) {
               <FormLabel
                 style={{
                   fontSize: '14px',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   fontWeight: '600',
                   marginBottom: '10px',
                   display: 'block'
@@ -224,14 +224,14 @@ function SignUp({ appData }) {
                   border: '2px solid #e5e7eb',
                   borderRadius: '10px',
                   fontSize: '15px',
-                  color: '#1e3a5f',
+                  color: 'var(--color-charcoal)',
                   transition: 'all 0.3s ease',
                   outline: 'none'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#4285f4';
+                  e.target.style.borderColor = 'var(--color-forest)';
                   e.target.style.backgroundColor = '#ffffff';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                  e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = '#e5e7eb';
@@ -246,7 +246,7 @@ function SignUp({ appData }) {
               <FormLabel
                 style={{
                   fontSize: '14px',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   fontWeight: '600',
                   marginBottom: '10px',
                   display: 'block'
@@ -267,14 +267,14 @@ function SignUp({ appData }) {
                   border: '2px solid #e5e7eb',
                   borderRadius: '10px',
                   fontSize: '15px',
-                  color: '#1e3a5f',
+                  color: 'var(--color-charcoal)',
                   transition: 'all 0.3s ease',
                   outline: 'none'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#4285f4';
+                  e.target.style.borderColor = 'var(--color-forest)';
                   e.target.style.backgroundColor = '#ffffff';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                  e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = '#e5e7eb';
@@ -289,7 +289,7 @@ function SignUp({ appData }) {
               <FormLabel
                 style={{
                   fontSize: '14px',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   fontWeight: '600',
                   marginBottom: '10px',
                   display: 'block'
@@ -310,14 +310,14 @@ function SignUp({ appData }) {
                   border: '2px solid #e5e7eb',
                   borderRadius: '10px',
                   fontSize: '15px',
-                  color: '#1e3a5f',
+                  color: 'var(--color-charcoal)',
                   transition: 'all 0.3s ease',
                   outline: 'none'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#4285f4';
+                  e.target.style.borderColor = 'var(--color-forest)';
                   e.target.style.backgroundColor = '#ffffff';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                  e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = '#e5e7eb';
@@ -333,7 +333,7 @@ function SignUp({ appData }) {
               style={{
                 width: '100%',
                 padding: '14px',
-                background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                 border: 'none',
                 borderRadius: '10px',
                 fontSize: '16px',
@@ -341,17 +341,17 @@ function SignUp({ appData }) {
                 color: '#ffffff',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 4px 15px rgba(66, 133, 244, 0.4)',
+                boxShadow: 'var(--shadow-md)',
                 textTransform: 'none',
                 marginTop: 'auto'
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 6px 20px rgba(66, 133, 244, 0.5)';
+                e.target.style.boxShadow = 'var(--shadow-hover)';
               }}
               onMouseLeave={(e) => {
                 e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.4)';
+                e.target.style.boxShadow = 'var(--shadow-md)';
               }}
               onMouseDown={(e) => {
                 e.target.style.transform = 'translateY(0)';

@@ -63,7 +63,7 @@ function NewsFeed({ appData }) {
           style={{
             fontSize: isMobile ? '24px' : '28px',
             fontWeight: '700',
-            color: '#1e3a5f',
+            color: 'var(--color-bark)',
             margin: 0,
             display: 'flex',
             alignItems: 'center',

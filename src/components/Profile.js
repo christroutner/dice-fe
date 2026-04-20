@@ -218,7 +218,7 @@ function Profile({ appData }) {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)',
+        background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)',
         padding: 0,
         position: 'relative',
         overflow: 'hidden'
@@ -232,7 +232,7 @@ function Profile({ appData }) {
           right: '-10%',
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-gold) 18%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -244,7 +244,7 @@ function Profile({ appData }) {
           left: '-10%',
           width: '500px',
           height: '500px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-forest) 16%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -283,7 +283,7 @@ function Profile({ appData }) {
               gap: '8px',
               background: 'none',
               border: 'none',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               cursor: 'pointer',
               padding: '8px 12px',
               borderRadius: '8px',
@@ -307,7 +307,7 @@ function Profile({ appData }) {
             style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '700',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               margin: 0,
               flex: 1,
               textAlign: 'center'
@@ -373,7 +373,7 @@ function Profile({ appData }) {
             <div
               style={{
                 height: isMobile ? '150px' : '200px',
-                background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                 position: 'relative'
               }}
             >
@@ -402,7 +402,7 @@ function Profile({ appData }) {
                   borderRadius: '20px',
                   fontSize: '14px',
                   fontWeight: '600',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   display: 'flex',
@@ -446,7 +446,7 @@ function Profile({ appData }) {
                     height: isMobile ? '120px' : '160px',
                     borderRadius: '50%',
                     border: '4px solid #ffffff',
-                    background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                    background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -484,7 +484,7 @@ function Profile({ appData }) {
                     width: isMobile ? '36px' : '40px',
                     height: isMobile ? '36px' : '40px',
                     borderRadius: '50%',
-                    backgroundColor: '#4285f4',
+                    backgroundColor: 'var(--color-forest)',
                     border: '3px solid #ffffff',
                     display: 'flex',
                     alignItems: 'center',
@@ -495,11 +495,11 @@ function Profile({ appData }) {
                     padding: 0
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#1e3a5f';
+                    e.target.style.backgroundColor = 'var(--color-moss)';
                     e.target.style.transform = 'scale(1.1)';
                   }}
                   onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = '#4285f4';
+                    e.target.style.backgroundColor = 'var(--color-forest)';
                     e.target.style.transform = 'scale(1)';
                   }}
                 >
@@ -513,7 +513,7 @@ function Profile({ appData }) {
                   style={{
                     fontSize: isMobile ? '24px' : '28px',
                     fontWeight: '700',
-                    color: '#1e3a5f',
+                    color: 'var(--color-bark)',
                     margin: '0 0 4px 0'
                   }}
                 >
@@ -569,10 +569,10 @@ function Profile({ appData }) {
                   padding: isMobile ? '10px 16px' : '12px 24px',
                   background: 'none',
                   border: 'none',
-                  borderBottom: activeTab === 'profile' ? '3px solid #4285f4' : '3px solid transparent',
+                  borderBottom: activeTab === 'profile' ? '3px solid var(--color-forest)' : '3px solid transparent',
                   fontSize: isMobile ? '14px' : '16px',
                   fontWeight: '600',
-                  color: activeTab === 'profile' ? '#4285f4' : '#6b7280',
+                  color: activeTab === 'profile' ? 'var(--color-forest)' : '#6b7280',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   marginBottom: '-2px',
@@ -581,7 +581,7 @@ function Profile({ appData }) {
                 }}
                 onMouseEnter={(e) => {
                   if (activeTab !== 'profile') {
-                    e.target.style.color = '#4285f4';
+                    e.target.style.color = 'var(--color-forest)';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -600,10 +600,10 @@ function Profile({ appData }) {
                   padding: isMobile ? '10px 16px' : '12px 24px',
                   background: 'none',
                   border: 'none',
-                  borderBottom: activeTab === 'password' ? '3px solid #4285f4' : '3px solid transparent',
+                  borderBottom: activeTab === 'password' ? '3px solid var(--color-forest)' : '3px solid transparent',
                   fontSize: isMobile ? '14px' : '16px',
                   fontWeight: '600',
-                  color: activeTab === 'password' ? '#4285f4' : '#6b7280',
+                  color: activeTab === 'password' ? 'var(--color-forest)' : '#6b7280',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   marginBottom: '-2px',
@@ -612,7 +612,7 @@ function Profile({ appData }) {
                 }}
                 onMouseEnter={(e) => {
                   if (activeTab !== 'password') {
-                    e.target.style.color = '#4285f4';
+                    e.target.style.color = 'var(--color-forest)';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -631,10 +631,10 @@ function Profile({ appData }) {
                   padding: isMobile ? '10px 16px' : '12px 24px',
                   background: 'none',
                   border: 'none',
-                  borderBottom: activeTab === 'pinned' ? '3px solid #4285f4' : '3px solid transparent',
+                  borderBottom: activeTab === 'pinned' ? '3px solid var(--color-forest)' : '3px solid transparent',
                   fontSize: isMobile ? '14px' : '16px',
                   fontWeight: '600',
-                  color: activeTab === 'pinned' ? '#4285f4' : '#6b7280',
+                  color: activeTab === 'pinned' ? 'var(--color-forest)' : '#6b7280',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   marginBottom: '-2px',
@@ -643,7 +643,7 @@ function Profile({ appData }) {
                 }}
                 onMouseEnter={(e) => {
                   if (activeTab !== 'pinned') {
-                    e.target.style.color = '#4285f4';
+                    e.target.style.color = 'var(--color-forest)';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -663,7 +663,7 @@ function Profile({ appData }) {
                   style={{
                     fontSize: '20px',
                     fontWeight: '700',
-                    color: '#1e3a5f',
+                    color: 'var(--color-bark)',
                     marginBottom: '24px'
                   }}
                 >
@@ -677,7 +677,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -695,14 +695,14 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -719,7 +719,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -737,14 +737,14 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -771,7 +771,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -789,15 +789,15 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
 
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -814,7 +814,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -832,14 +832,14 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -856,7 +856,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -874,16 +874,16 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none',
                       resize: 'none',
                       fontFamily: 'inherit'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -899,7 +899,7 @@ function Profile({ appData }) {
                   style={{
                     width: '100%',
                     padding: '14px',
-                    background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                    background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                     border: 'none',
                     borderRadius: '10px',
                     fontSize: '16px',
@@ -907,15 +907,15 @@ function Profile({ appData }) {
                     color: '#ffffff',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(66, 133, 244, 0.4)'
+                    boxShadow: 'var(--shadow-md)'
                   }}
                   onMouseEnter={(e) => {
                     e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 6px 20px rgba(66, 133, 244, 0.5)';
+                    e.target.style.boxShadow = 'var(--shadow-hover)';
                   }}
                   onMouseLeave={(e) => {
                     e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.4)';
+                    e.target.style.boxShadow = 'var(--shadow-md)';
                   }}
                 >
                   Save Changes
@@ -930,7 +930,7 @@ function Profile({ appData }) {
                   style={{
                     fontSize: '20px',
                     fontWeight: '700',
-                    color: '#1e3a5f',
+                    color: 'var(--color-bark)',
                     marginBottom: '24px'
                   }}
                 >
@@ -944,7 +944,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -962,14 +962,14 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -986,7 +986,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -1004,14 +1004,14 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -1028,7 +1028,7 @@ function Profile({ appData }) {
                       display: 'block',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '8px'
                     }}
                   >
@@ -1046,14 +1046,14 @@ function Profile({ appData }) {
                       border: '2px solid #e5e7eb',
                       borderRadius: '10px',
                       fontSize: '15px',
-                      color: '#1e3a5f',
+                      color: 'var(--color-charcoal)',
                       transition: 'all 0.3s ease',
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#4285f4';
+                      e.target.style.borderColor = 'var(--color-forest)';
                       e.target.style.backgroundColor = '#ffffff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                      e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#e5e7eb';
@@ -1069,7 +1069,7 @@ function Profile({ appData }) {
                   style={{
                     width: '100%',
                     padding: '14px',
-                    background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                    background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                     border: 'none',
                     borderRadius: '10px',
                     fontSize: '16px',
@@ -1077,15 +1077,15 @@ function Profile({ appData }) {
                     color: '#ffffff',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(66, 133, 244, 0.4)'
+                    boxShadow: 'var(--shadow-md)'
                   }}
                   onMouseEnter={(e) => {
                     e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 6px 20px rgba(66, 133, 244, 0.5)';
+                    e.target.style.boxShadow = 'var(--shadow-hover)';
                   }}
                   onMouseLeave={(e) => {
                     e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.4)';
+                    e.target.style.boxShadow = 'var(--shadow-md)';
                   }}
                 >
                   Update Password
@@ -1100,7 +1100,7 @@ function Profile({ appData }) {
                   style={{
                     fontSize: '20px',
                     fontWeight: '700',
-                    color: '#1e3a5f',
+                    color: 'var(--color-bark)',
                     marginBottom: '24px'
                   }}
                 >
@@ -1126,7 +1126,7 @@ function Profile({ appData }) {
                         display: 'block',
                         fontSize: '14px',
                         fontWeight: '600',
-                        color: '#1e3a5f',
+                        color: 'var(--color-bark)',
                         marginBottom: '8px'
                       }}
                     >
@@ -1148,14 +1148,14 @@ function Profile({ appData }) {
                         border: '2px solid #e5e7eb',
                         borderRadius: '10px',
                         fontSize: '15px',
-                        color: '#1e3a5f',
+                        color: 'var(--color-charcoal)',
                         transition: 'all 0.3s ease',
                         outline: 'none'
                       }}
                       onFocus={(e) => {
-                        e.target.style.borderColor = '#4285f4';
+                        e.target.style.borderColor = 'var(--color-forest)';
                         e.target.style.backgroundColor = '#ffffff';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(66, 133, 244, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent)';
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = '#e5e7eb';
@@ -1171,7 +1171,7 @@ function Profile({ appData }) {
                   style={{
                     width: '100%',
                     padding: '14px',
-                    background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                    background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                     border: 'none',
                     borderRadius: '10px',
                     fontSize: '16px',
@@ -1179,15 +1179,15 @@ function Profile({ appData }) {
                     color: '#ffffff',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(66, 133, 244, 0.4)'
+                    boxShadow: 'var(--shadow-md)'
                   }}
                   onMouseEnter={(e) => {
                     e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 6px 20px rgba(66, 133, 244, 0.5)';
+                    e.target.style.boxShadow = 'var(--shadow-hover)';
                   }}
                   onMouseLeave={(e) => {
                     e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.4)';
+                    e.target.style.boxShadow = 'var(--shadow-md)';
                   }}
                   onClick={handleUpdatePinnedPosts}
                 >
