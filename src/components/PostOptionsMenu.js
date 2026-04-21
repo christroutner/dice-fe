@@ -39,7 +39,7 @@ function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
           }
           .post-options-dropdown .dropdown-item:active {
             background-color: #f3f4f6;
-            color: #4285f4;
+            color: var(--color-forest);
           }
         `}
       </style>
@@ -62,7 +62,7 @@ function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#1e3a5f';
+            e.target.style.color = 'var(--color-bark)';
           }}
           onMouseLeave={(e) => {
             e.target.style.backgroundColor = 'transparent';
@@ -91,7 +91,7 @@ function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
               gap: '10px',
               padding: '10px 14px',
               fontSize: '14px',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               fontWeight: '500',
               borderRadius: '8px',
               transition: 'all 0.2s ease',
@@ -101,11 +101,11 @@ function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#f3f4f6';
-              e.currentTarget.style.color = '#4285f4';
+              e.currentTarget.style.color = 'var(--color-forest)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = '#1e3a5f';
+              e.currentTarget.style.color = 'var(--color-bark)';
             }}
           >
             <Edit size={16} style={{ flexShrink: 0, lineHeight: 0 }} />
@@ -119,7 +119,7 @@ function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
               gap: '10px',
               padding: '10px 14px',
               fontSize: '14px',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               fontWeight: '500',
               borderRadius: '8px',
               transition: 'all 0.2s ease',
@@ -129,11 +129,11 @@ function PostOptionsMenu({ post, appData, onEdit , onDelete }) {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#f3f4f6';
-              e.currentTarget.style.color = '#4285f4';
+              e.currentTarget.style.color = 'var(--color-forest)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = '#1e3a5f';
+              e.currentTarget.style.color = 'var(--color-bark)';
             }}
           >
             <Trash size={16} style={{ flexShrink: 0, lineHeight: 0 }} />

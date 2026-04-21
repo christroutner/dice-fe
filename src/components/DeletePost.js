@@ -69,7 +69,7 @@ function DeletePost({ show, onHide, appData, post, onDelete }) {
             style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '700',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               margin: 0,
               width: '100%',
               textAlign: 'center',

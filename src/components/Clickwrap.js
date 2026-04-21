@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import logo from '../logo.svg';
+import logo from '../assets/lta-logo.png';
 
 function Clickwrap() {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)',
+        background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)',
         padding: '20px',
         position: 'relative',
         overflow: 'hidden'
@@ -64,7 +64,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
           right: '-10%',
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-gold) 18%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -76,7 +76,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
           left: '-10%',
           width: '500px',
           height: '500px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-forest) 16%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -105,8 +105,8 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: '30px',
-            margin: '0 auto 30px auto'
+            marginBottom: '10px',
+            margin: '0 auto 10px auto'
           }}
         >
           <img 
@@ -115,7 +115,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
             style={{
               width: isMobile ? '120px' : '150px',
               height: 'auto',
-              maxHeight: isMobile ? '40px' : '50px',
+              maxHeight: isMobile ? '64px' : '150px',
               objectFit: 'contain'
             }}
           />
@@ -126,13 +126,13 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
           style={{
             fontSize: isMobile ? '28px' : '36px',
             fontWeight: '700',
-            color: '#1e3a5f',
+            color: 'var(--color-bark)',
             marginBottom: '1rem',
             textAlign: 'center',
             letterSpacing: '-0.5px'
           }}
         >
-          Marketplace App
+          TheLocalTrade.app
         </h1>
 
         
@@ -187,9 +187,9 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
             style={{
               width: '18px',
               height: '18px',
-              backgroundColor: acceptTerms ? '#4285f4' : '#ffffff',
+              backgroundColor: acceptTerms ? 'var(--color-forest)' : '#ffffff',
               border: '2px solid',
-              borderColor: acceptTerms ? '#4285f4' : '#d1d5db',
+              borderColor: acceptTerms ? 'var(--color-forest)' : '#d1d5db',
               marginRight: '12px',
               cursor: 'pointer',
               borderRadius: '4px',
@@ -219,7 +219,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
             width: '100%',
             padding: '14px',
             background: acceptTerms 
-              ? 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)' 
+              ? 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)' 
               : 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
             border: 'none',
             borderRadius: '10px',
@@ -229,7 +229,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
             cursor: acceptTerms ? 'pointer' : 'not-allowed',
             transition: 'all 0.3s ease',
             boxShadow: acceptTerms 
-              ? '0 4px 15px rgba(66, 133, 244, 0.4)' 
+              ? 'var(--shadow-md)' 
               : 'none',
             textTransform: 'none',
             opacity: acceptTerms ? 1 : 0.6
@@ -237,13 +237,13 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
           onMouseEnter={(e) => {
             if (acceptTerms) {
               e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 6px 20px rgba(66, 133, 244, 0.5)';
+              e.target.style.boxShadow = 'var(--shadow-hover)';
             }
           }}
           onMouseLeave={(e) => {
             if (acceptTerms) {
               e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 15px rgba(66, 133, 244, 0.4)';
+              e.target.style.boxShadow = 'var(--shadow-md)';
             }
           }}
           onMouseDown={(e) => {

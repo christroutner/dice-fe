@@ -95,7 +95,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
           style={{
             fontSize: isMobile ? '20px' : '24px',
             fontWeight: '700',
-            color: '#1e3a5f',
+            color: 'var(--color-bark)',
             margin: '0 0 8px 0',
             display: 'flex',
             alignItems: 'center',
@@ -145,8 +145,8 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                   height: '100%'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#4285f4';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.15)';
+                  e.currentTarget.style.borderColor = 'var(--color-forest)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px color-mix(in srgb, var(--color-forest) 16%, transparent)';
                   e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
@@ -173,7 +173,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                       width: isMobile ? '40px' : '48px',
                       height: isMobile ? '40px' : '48px',
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                      background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -182,7 +182,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                       fontSize: isMobile ? '16px' : '18px',
                       marginRight: '12px',
                       flexShrink: 0,
-                      boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)',
+                      boxShadow: 'var(--shadow-sm)',
                       cursor: 'pointer',
                       transition: 'transform 0.2s ease'
                     }}
@@ -233,17 +233,17 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                     style={{
                       fontSize: isMobile ? '14px' : '16px',
                       fontWeight: '600',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       marginBottom: '2px',
                       cursor: 'pointer',
                       transition: 'color 0.2s ease',
                       display: 'inline-block'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.color = '#4285f4';
+                      e.target.style.color = 'var(--color-forest)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.color = '#1e3a5f';
+                      e.target.style.color = 'var(--color-bark)';
                     }}
                   >
                     {post.ownerId?.name || post.ownerId?.email}
@@ -286,7 +286,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                         style={{
                           background: 'none',
                           border: 'none',
-                          color: '#4285f4',
+                          color: 'var(--color-forest)',
                           cursor: 'pointer',
                           fontSize: isMobile ? '13px' : '14px',
                           fontWeight: '600',
@@ -297,10 +297,10 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                           textDecoration: 'none'
                         }}
                         onMouseEnter={(e) => {
-                          e.target.style.color = '#1e3a5f';
+                          e.target.style.color = 'var(--color-moss)';
                         }}
                         onMouseLeave={(e) => {
-                          e.target.style.color = '#4285f4';
+                          e.target.style.color = 'var(--color-forest)';
                         }}
                       >
                         Read more
