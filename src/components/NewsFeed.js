@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Comments from './Comments';
 import NewsCard from './NewsCard';
+import LazyMount from './LazyMount';
 
 function NewsFeed({ appData }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -85,20 +86,25 @@ function NewsFeed({ appData }) {
 
       {/* Posts Container */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {posts.map((post) => (
-          <NewsCard
+        {posts.map((post, index) => (
+          <LazyMount
             key={post._id}
-            post={post}
-            isMobile={isMobile}
-            onCommentClick={(post) => {
-              setSelectedPost(post);
-              setShowComments(true);
-            }}
-            appData={appData}
-            onUpdatePost={(post) => {
-              appData.updatePosts();
-            }}
-          />
+            eager={index < 2}
+            minHeight={isMobile ? 200 : 240}
+          >
+            <NewsCard
+              post={post}
+              isMobile={isMobile}
+              onCommentClick={(p) => {
+                setSelectedPost(p);
+                setShowComments(true);
+              }}
+              appData={appData}
+              onUpdatePost={() => {
+                appData.updatePosts();
+              }}
+            />
+          </LazyMount>
         ))}
       </div>
 

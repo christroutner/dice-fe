@@ -11,21 +11,74 @@ import Members from './components/Members';
 import useAppState from './hooks/state';
 import PostView from './components/PostView';
 
+function ProtectedRoute({ appData, children }) {
+  if (!appData.userData?.token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
 function App() {
-  const appData = useAppState()
+  const appData = useAppState();
+  const authed = !!appData.userData?.token;
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route
+          path="/"
+          element={
+            authed ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
         <Route path="/login" element={<Login appData={appData}/>} />
         <Route path="/signup" element={<SignUp appData={appData}/>} />
         <Route path="/clickwrap" element={<Clickwrap appData={appData} />} />
-        <Route path="/dashboard" element={<Dashboard appData={appData}/>} />
-        <Route path="/profile" element={<Profile appData={appData}/>} />
-        <Route path="/members" element={<Members appData={appData}/>} />
-        <Route path="/user/:userId" element={<UserProfile appData={appData}/>} />
-        <Route path="/post/:postId" element={<PostView appData={appData}/>} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute appData={appData}>
+              <Dashboard appData={appData}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute appData={appData}>
+              <Profile appData={appData}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/members"
+          element={
+            <ProtectedRoute appData={appData}>
+              <Members appData={appData}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/:userId"
+          element={
+            <ProtectedRoute appData={appData}>
+              <UserProfile appData={appData}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/post/:postId"
+          element={
+            <ProtectedRoute appData={appData}>
+              <PostView appData={appData}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to={authed ? "/dashboard" : "/login"} replace />} />
       </Routes>
       <ToastContainer />
     </>

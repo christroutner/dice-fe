@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image } from 'react-bootstrap';
-import axios from 'axios';
+import { fetchCachedMedia } from '../utils/mediaCache';
 
 const AuthMediaViewer = ({ src, token, alt = "Loading...", ...props }) => {
   const [mediaSrc, setMediaSrc] = useState("");
@@ -9,21 +9,21 @@ const AuthMediaViewer = ({ src, token, alt = "Loading...", ...props }) => {
 
   useEffect(() => {
     let objectUrl = null;
+    let cancelled = false;
+    const controller = new AbortController();
 
     const fetchMedia = async () => {
       try {
         setStatus('loading');
 
-        const response = await axios({
-          method: 'GET',
-          url: src,
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          responseType: 'blob'
+        const { blob, contentType } = await fetchCachedMedia(src, {
+          token,
+          signal: controller.signal,
         });
 
-        const contentType = response.headers['content-type'] || "";
+        if (cancelled) {
+          return;
+        }
 
         if (contentType.startsWith('image/')) {
           setMediaType('image');
@@ -33,10 +33,16 @@ const AuthMediaViewer = ({ src, token, alt = "Loading...", ...props }) => {
           setMediaType('other');
         }
 
-        objectUrl = URL.createObjectURL(response.data);
+        objectUrl = URL.createObjectURL(blob);
+        if (cancelled) {
+          URL.revokeObjectURL(objectUrl);
+          return;
+        }
+
         setMediaSrc(objectUrl);
         setStatus('loaded');
       } catch (e) {
+        if (e.name === 'AbortError' || cancelled) return;
         console.error("Error in AuthMedia:", e.message);
         setStatus('error');
       }
@@ -46,8 +52,9 @@ const AuthMediaViewer = ({ src, token, alt = "Loading...", ...props }) => {
       fetchMedia();
     }
 
-    // Cleanup: revoke the object URL when the component unmounts
     return () => {
+      cancelled = true;
+      controller.abort();
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);
       }
@@ -94,6 +101,8 @@ const AuthMediaViewer = ({ src, token, alt = "Loading...", ...props }) => {
       <Image
         src={mediaSrc}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         {...props}
       />
     );

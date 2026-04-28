@@ -13,6 +13,7 @@ import Comments from './Comments';
 import PinnedPosts from './PinnedPosts';
 import { toast } from 'react-toastify';
 import MarkdownFormat from './MarkdownFormat';
+import LazyMount from './LazyMount';
 
 function UserProfile({ appData }) {
   const { userId } = useParams();
@@ -647,17 +648,22 @@ function UserProfile({ appData }) {
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {userPosts.map((post) => (
-                    <NewsCard
+                  {userPosts.map((post, index) => (
+                    <LazyMount
                       key={post._id}
-                      post={post}
-                      isMobile={isMobile}
-                      onCommentClick={(post) => {
-                        setSelectedPost(post);
-                        setShowComments(true);
-                      }}
-                      appData={appData}
-                    />
+                      eager={index < 2}
+                      minHeight={isMobile ? 200 : 240}
+                    >
+                      <NewsCard
+                        post={post}
+                        isMobile={isMobile}
+                        onCommentClick={(p) => {
+                          setSelectedPost(p);
+                          setShowComments(true);
+                        }}
+                        appData={appData}
+                      />
+                    </LazyMount>
                   ))}
                 </div>
               )}
