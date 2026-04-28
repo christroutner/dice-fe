@@ -10,6 +10,7 @@ import { getHydratedPosts } from '../services/post';
 import AuthMediaViewer from './AuthMediaViewer';
 import MobileMenu from './MobileMenu';
 import { toast } from 'react-toastify';
+import LazyMount from './LazyMount';
 
 function Members({ appData }) {
   const navigate = useNavigate();
@@ -372,7 +373,7 @@ function Members({ appData }) {
             </div>
           ) : (
             <Row className="g-4">
-              {filteredUsers.map((user) => {
+              {filteredUsers.map((user, index) => {
                 const userId = user._id || user.id;
                 const postCount = userPostCounts[userId] || 0;
                 
@@ -385,6 +386,7 @@ function Members({ appData }) {
                     lg={3}
                     xl={3}
                   >
+                    <LazyMount eager={index < 4} minHeight={isMobile ? 320 : 340}>
                     <div
                       onClick={() => navigate(`/user/${userId}`)}
                       style={{
@@ -542,6 +544,7 @@ function Members({ appData }) {
                       View Profile
                     </button>
                     </div>
+                    </LazyMount>
                   </Col>
                 );
               })}

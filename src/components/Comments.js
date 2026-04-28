@@ -6,6 +6,7 @@ import { Modal } from 'react-bootstrap';
 import { getCommentsByParent, createComment } from '../services/comment';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
+import LazyMount from './LazyMount';
 
 function Comments({ show, onHide, post, appData , onUpdateComments}) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -331,9 +332,13 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                {comments.map((comment) => (
+                {comments.map((comment, index) => (
+                  <LazyMount
+                    key={`${comment.id || comment._id || index}`}
+                    eager={index < 6}
+                    minHeight={88}
+                  >
                   <div
-                    key={comment.id}
                     style={{
                       display: 'flex',
                       gap: '12px'
@@ -439,6 +444,7 @@ function Comments({ show, onHide, post, appData , onUpdateComments}) {
                       </div>
                     </div>
                   </div>
+                  </LazyMount>
                 ))}
               </div>
             )}

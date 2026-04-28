@@ -10,15 +10,22 @@ import ImageModal from './ImageModal';
 import MarkdownFormat from './MarkdownFormat';
 import AuthMediaViewer from './AuthMediaViewer';
 import { getHydratedPost } from '../services/post';
+import { useInView } from '../hooks/useInView';
+import LazyMount from './LazyMount';
 
 function PinnedPosts({ postsUrls, isMobile, appData }) {
   console.log('PinnedPosts() called with postsUrls: ', postsUrls);
   const [posts, setPosts] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const navigate = useNavigate();
+  const [sectionRef, pinnedInView] = useInView({
+    once: true,
+    rootMargin: '280px 0px',
+  });
+
+  const postsUrlsKey = postsUrls.filter(Boolean).join('|');
 
   // readable date format
   const dateToLocaleString = (isoDate) => {
@@ -41,44 +48,53 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
   };
 
 
-  // Fetch posts when postsUrls changes and posts are not loaded
   useEffect(() => {
+    setPosts(null);
+  }, [postsUrlsKey]);
+
+  // Fetch hydrated pinned posts only when the section is near the viewport
+  useEffect(() => {
+    if (!pinnedInView || postsUrls.length === 0 || posts !== null) {
+      return undefined;
+    }
+
+    let cancelled = false;
+
     const fetchPosts = async () => {
       try {
-
-        setLoading(true);
         const hydratedPosts = [];
+        const token = appData?.userData?.token;
         for (const postUrl of postsUrls) {
-          if (postUrl) {
-            try {
-              const postId = postUrl.split('/').pop();
-              const postResponse = await getHydratedPost(postId, appData?.userData?.token);
-              if (postResponse.post) {
-                const post = postResponse.post;
-                hydratedPosts.push(post);
-              }
-            } catch (error) {
-              // skip error if post cannot be retrieved
+          if (cancelled) return;
+          if (!postUrl) continue;
+          try {
+            const postId = postUrl.split('/').pop();
+            const postResponse = await getHydratedPost(postId, token);
+            if (postResponse.post) {
+              hydratedPosts.push(postResponse.post);
             }
+          } catch {
+            // skip error if post cannot be retrieved
           }
         }
+        if (!cancelled) {
           setPosts(hydratedPosts);
-          setLoading(false)
-       
-
+        }
       } catch (error) {
         console.error('Error fetching posts: ', error);
-        setLoading(false);
       }
-    }
-    if (postsUrls.length > 0 && !loading && !posts) {
-      fetchPosts();
-    }
-  }, [postsUrls, appData, loading, posts]);
+    };
+
+    fetchPosts();
+    return () => {
+      cancelled = true;
+    };
+  }, [pinnedInView, postsUrlsKey, postsUrls, posts, appData?.userData?.token]);
 
   return (
     <Container
       fluid
+      ref={sectionRef}
       style={{
         padding: isMobile ? '0 10px 20px 10px' : '0 20px 20px 20px',
         borderBottom: '1px solid #e5e7eb',
@@ -117,7 +133,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
 
       {/* Grid Container */}
       <Row className="g-3" style={{ margin: 0 }}>
-        {posts && posts.length > 0 && posts.map((post) => {
+        {posts && posts.length > 0 && posts.map((post, index) => {
           const postId = post._id;
           const hasMedia = post.mediaUrls && post.mediaUrls.length > 0;
           const likesCount = post.likes?.length || 0;
@@ -131,6 +147,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
               xs={12}
               md={6}
             >
+              <LazyMount eager={index < 2} minHeight={isMobile ? 260 : 300}>
               <div
                 style={{
                   backgroundColor: '#ffffff',
@@ -385,6 +402,7 @@ function PinnedPosts({ postsUrls, isMobile, appData }) {
                 )}
               </div>
               </div>
+              </LazyMount>
             </Col>
           );
         })}
