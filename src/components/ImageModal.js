@@ -102,7 +102,7 @@ function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
               height: isMobile ? '36px' : '40px',
               zIndex: 10,
               transition: 'all 0.2s ease',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               padding: 0
             }}
             onMouseEnter={(e) => {
@@ -133,7 +133,7 @@ function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
                 height: isMobile ? '40px' : '48px',
                 zIndex: 10,
                 transition: 'all 0.2s ease',
-                color: '#1e3a5f',
+                color: 'var(--color-bark)',
                 padding: 0
               }}
               onMouseEnter={(e) => {
@@ -181,7 +181,7 @@ function ImageModal({ show, onHide, images, initialIndex = 0 , token }) {
                 height: isMobile ? '40px' : '48px',
                 zIndex: 10,
                 transition: 'all 0.2s ease',
-                color: '#1e3a5f',
+                color: 'var(--color-bark)',
                 padding: 0
               }}
               onMouseEnter={(e) => {

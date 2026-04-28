@@ -124,7 +124,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
               width: isMobile ? '48px' : '56px',
               height: isMobile ? '48px' : '56px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+              background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -133,7 +133,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
               fontSize: isMobile ? '18px' : '20px',
               marginRight: '16px',
               flexShrink: 0,
-              boxShadow: '0 2px 8px rgba(66, 133, 244, 0.3)',
+              boxShadow: 'var(--shadow-sm)',
               cursor: 'pointer',
               transition: 'transform 0.2s ease'
             }}
@@ -174,17 +174,17 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
             style={{
               fontSize: isMobile ? '16px' : '18px',
               fontWeight: '600',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               marginBottom: '4px',
               cursor: 'pointer',
               transition: 'color 0.2s ease',
               display: 'inline-block'
             }}
             onMouseEnter={(e) => {
-              e.target.style.color = '#4285f4';
+              e.target.style.color = 'var(--color-forest)';
             }}
             onMouseLeave={(e) => {
-              e.target.style.color = '#1e3a5f';
+              e.target.style.color = 'var(--color-bark)';
             }}
           >
             {post.ownerId?.name || post.ownerId?.email}
@@ -225,7 +225,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
             style={{
               background: 'none',
               border: 'none',
-              color: '#4285f4',
+              color: 'var(--color-forest)',
               cursor: 'pointer',
               fontSize: isMobile ? '14px' : '15px',
               fontWeight: '600',
@@ -235,10 +235,10 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
               transition: 'color 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.target.style.color = '#1e3a5f';
+              e.target.style.color = 'var(--color-moss)';
             }}
             onMouseLeave={(e) => {
-              e.target.style.color = '#4285f4';
+              e.target.style.color = 'var(--color-forest)';
             }}
           >
             {isExpanded ? 'Read less' : 'Read more'}
@@ -285,16 +285,16 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
             transition: 'all 0.2s ease',
             flex: 1,
             justifyContent: 'center',
-            color:post.likes.includes(appData?.userData?.user?._id) ? '#4285f4' : '#6b7280'
+            color: post.likes.includes(appData?.userData?.user?._id) ? 'var(--color-forest)' : '#6b7280'
           }}
 
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#4285f4';
+            e.target.style.color = 'var(--color-forest)';
           }}
           onMouseLeave={(e) => {
             e.target.style.backgroundColor = 'transparent';
-            e.target.style.color = post.likes.includes(appData?.userData?.user?._id) ? '#4285f4' : '#6b7280'
+            e.target.style.color = post.likes.includes(appData?.userData?.user?._id) ? 'var(--color-forest)' : '#6b7280'
           }}
           onClick={() => handleLikeClick(post)}
         >
@@ -327,7 +327,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#4285f4';
+            e.target.style.color = 'var(--color-forest)';
           }}
           onMouseLeave={(e) => {
             e.target.style.backgroundColor = 'transparent';
@@ -359,7 +359,7 @@ function NewsCard({ post, isMobile, onCommentClick, appData , onUpdatePost }) {
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = '#f3f4f6';
-            e.target.style.color = '#4285f4';
+            e.target.style.color = 'var(--color-forest)';
           }}
           onMouseLeave={(e) => {
             e.target.style.backgroundColor = 'transparent';

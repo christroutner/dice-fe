@@ -1,0 +1,65 @@
+/* Brand-aligned Bootstrap layer (ported from pma-sale-site) */
+
+.btn {
+  border-radius: var(--radius-md);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--color-forest);
+  --bs-btn-border-color: var(--color-forest);
+  --bs-btn-hover-bg: var(--color-moss);
+  --bs-btn-hover-border-color: var(--color-moss);
+  --bs-btn-active-bg: var(--color-moss);
+  --bs-btn-active-border-color: var(--color-moss);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--color-forest);
+  --bs-btn-border-color: var(--color-forest);
+  --bs-btn-hover-bg: var(--color-forest);
+  --bs-btn-hover-border-color: var(--color-forest);
+  --bs-btn-hover-color: var(--color-cream);
+}
+
+.btn-gold {
+  --bs-btn-bg: var(--color-gold);
+  --bs-btn-border-color: var(--color-gold);
+  --bs-btn-hover-bg: var(--color-amber);
+  --bs-btn-hover-border-color: var(--color-amber);
+  --bs-btn-color: var(--color-bark);
+  --bs-btn-hover-color: var(--color-bark);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-control,
+.form-select {
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  min-height: 44px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-forest);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-forest) 20%, transparent);
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.text-muted {
+  color: var(--color-slate) !important;
+}
+
+.link-primary {
+  color: var(--color-forest) !important;
+}
+
+.link-primary:hover {
+  color: var(--color-moss) !important;
+}
+

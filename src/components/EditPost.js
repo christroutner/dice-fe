@@ -205,7 +205,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
             style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '700',
-              color: '#1e3a5f',
+              color: 'var(--color-bark)',
               margin: 0,
               width: '100%',
               textAlign: 'center'
@@ -237,7 +237,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
             }}
             onMouseEnter={(e) => {
               e.target.style.backgroundColor = '#f3f4f6';
-              e.target.style.color = '#1e3a5f';
+              e.target.style.color = 'var(--color-bark)';
             }}
             onMouseLeave={(e) => {
               e.target.style.backgroundColor = 'transparent';
@@ -269,7 +269,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
                 width: '40px',
                 height: '40px',
                 borderRadius: '50%',
-                backgroundColor: '#4285f4',
+                backgroundColor: 'var(--color-forest)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -287,7 +287,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
                 style={{
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   marginBottom: '2px'
                 }}
               >
@@ -357,7 +357,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
                   borderRadius: '8px',
                   fontSize: '14px',
                   fontWeight: '600',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease'
                 }}
@@ -442,7 +442,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
               style={{
                 padding: '10px 24px',
                 background: postText.trim()
-                  ? 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)'
+                      ? 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)'
                   : 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
                 border: 'none',
                 borderRadius: '8px',
@@ -452,7 +452,7 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
                 cursor: postText.trim() ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s ease',
                 boxShadow: postText.trim()
-                  ? '0 2px 8px rgba(66, 133, 244, 0.3)'
+                      ? 'var(--shadow-sm)'
                   : 'none',
                 opacity: postText.trim() ? 1 : 0.6
               }}
@@ -460,13 +460,13 @@ function EditPost({ show, onHide, appData, post, onEdit }) {
               onMouseEnter={(e) => {
                 if (postText.trim()) {
                   e.target.style.transform = 'translateY(-1px)';
-                  e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
+                      e.target.style.boxShadow = 'var(--shadow-hover)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (postText.trim()) {
                   e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
+                      e.target.style.boxShadow = 'var(--shadow-sm)';
                 }
               }}
               onClick={handleEditPost}

@@ -13,6 +13,7 @@ import Comments from './Comments';
 import PinnedPosts from './PinnedPosts';
 import { toast } from 'react-toastify';
 import MarkdownFormat from './MarkdownFormat';
+import LazyMount from './LazyMount';
 
 function UserProfile({ appData }) {
   const { userId } = useParams();
@@ -102,7 +103,7 @@ function UserProfile({ appData }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)'
+          background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)'
         }}
       >
         <div style={{ color: '#ffffff', fontSize: '18px' }}>Loading...</div>
@@ -119,7 +120,7 @@ function UserProfile({ appData }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)'
+          background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)'
         }}
       >
         <div style={{ color: '#ffffff', fontSize: '18px' }}>User not found</div>
@@ -149,7 +150,7 @@ function UserProfile({ appData }) {
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
-          background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)',
+          background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)',
           padding: 0,
           position: 'relative',
           overflow: 'hidden'
@@ -163,7 +164,7 @@ function UserProfile({ appData }) {
             right: '-10%',
             width: '600px',
             height: '600px',
-            background: 'radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, color-mix(in srgb, var(--color-gold) 18%, transparent) 0%, transparent 70%)',
             borderRadius: '50%',
             zIndex: 0
           }}
@@ -175,7 +176,7 @@ function UserProfile({ appData }) {
             left: '-10%',
             width: '500px',
             height: '500px',
-            background: 'radial-gradient(circle, rgba(66, 133, 244, 0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, color-mix(in srgb, var(--color-forest) 16%, transparent) 0%, transparent 70%)',
             borderRadius: '50%',
             zIndex: 0
           }}
@@ -212,7 +213,7 @@ function UserProfile({ appData }) {
                 justifyContent: 'center',
                 background: 'none',
                 border: 'none',
-                color: '#1e3a5f',
+                color: 'var(--color-bark)',
                 cursor: 'pointer',
                 padding: '8px',
                 borderRadius: '8px',
@@ -234,7 +235,7 @@ function UserProfile({ appData }) {
                 style={{
                   fontSize: isMobile ? '18px' : '20px',
                   fontWeight: '700',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   margin: 0
                 }}
               >
@@ -281,7 +282,7 @@ function UserProfile({ appData }) {
               <div
                 style={{
                   height: isMobile ? '150px' : '200px',
-                  background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                  background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                   position: 'relative',
                   width: '100%'
                 }}
@@ -322,7 +323,7 @@ function UserProfile({ appData }) {
                       height: isMobile ? '120px' : '160px',
                       borderRadius: '50%',
                       border: '4px solid #ffffff',
-                      background: 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)',
+                      background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -358,7 +359,7 @@ function UserProfile({ appData }) {
                     style={{
                       fontSize: isMobile ? '24px' : '28px',
                       fontWeight: '700',
-                      color: '#1e3a5f',
+                      color: 'var(--color-bark)',
                       margin: '0 0 4px 0'
                     }}
                   >
@@ -384,7 +385,7 @@ function UserProfile({ appData }) {
                         width: '100%',
                         background: 'none',
                         border: 'none',
-                        color: '#1e3a5f',
+                        color: 'var(--color-bark)',
                         cursor: 'pointer',
                         fontSize: '15px',
                         fontWeight: '600',
@@ -404,7 +405,7 @@ function UserProfile({ appData }) {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <Info size={20} color="#4285f4" />
+                        <Info size={20} color="var(--color-forest)" />
                         <span>About me</span>
                       </div>
                       <div
@@ -475,7 +476,7 @@ function UserProfile({ appData }) {
                                         flexShrink: 0
                                       }}
                                     >
-                                      <Phone size={18} color="#4285f4" />
+                                      <Phone size={18} color="var(--color-forest)" />
                                     </div>
                                     <div style={{ flex: 1 }}>
                                       <div
@@ -490,7 +491,7 @@ function UserProfile({ appData }) {
                                       <div
                                         style={{
                                           fontSize: '15px',
-                                          color: '#1e3a5f',
+                                          color: 'var(--color-bark)',
                                           fontWeight: '500'
                                         }}
                                       >
@@ -520,7 +521,7 @@ function UserProfile({ appData }) {
                                         flexShrink: 0
                                       }}
                                     >
-                                      <Globe size={18} color="#4285f4" />
+                                      <Globe size={18} color="var(--color-forest)" />
                                     </div>
                                     <div style={{ flex: 1 }}>
                                       <div
@@ -538,18 +539,18 @@ function UserProfile({ appData }) {
                                         rel="noopener noreferrer"
                                         style={{
                                           fontSize: '15px',
-                                          color: '#4285f4',
+                                          color: 'var(--color-forest)',
                                           fontWeight: '500',
                                           textDecoration: 'none',
                                           display: 'inline-block',
                                           transition: 'color 0.2s ease'
                                         }}
                                         onMouseEnter={(e) => {
-                                          e.target.style.color = '#1e3a5f';
+                                          e.target.style.color = 'var(--color-moss)';
                                           e.target.style.textDecoration = 'underline';
                                         }}
                                         onMouseLeave={(e) => {
-                                          e.target.style.color = '#4285f4';
+                                          e.target.style.color = 'var(--color-forest)';
                                           e.target.style.textDecoration = 'none';
                                         }}
                                       >
@@ -647,17 +648,22 @@ function UserProfile({ appData }) {
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {userPosts.map((post) => (
-                    <NewsCard
+                  {userPosts.map((post, index) => (
+                    <LazyMount
                       key={post._id}
-                      post={post}
-                      isMobile={isMobile}
-                      onCommentClick={(post) => {
-                        setSelectedPost(post);
-                        setShowComments(true);
-                      }}
-                      appData={appData}
-                    />
+                      eager={index < 2}
+                      minHeight={isMobile ? 200 : 240}
+                    >
+                      <NewsCard
+                        post={post}
+                        isMobile={isMobile}
+                        onCommentClick={(p) => {
+                          setSelectedPost(p);
+                          setShowComments(true);
+                        }}
+                        appData={appData}
+                      />
+                    </LazyMount>
                   ))}
                 </div>
               )}

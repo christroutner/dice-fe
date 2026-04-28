@@ -10,6 +10,7 @@ import { createPost } from '../services/post';
 import { toast } from 'react-toastify';
 import { uploadFile } from '../services/files';
 import config from '../config';
+import AuthMediaViewer from './AuthMediaViewer';
 
 function Post({ show, onHide, appData }) {
   // State variables
@@ -160,7 +161,7 @@ function Post({ show, onHide, appData }) {
             style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '700',
-              color: '#1e3a5f',
+            color: 'var(--color-bark)',
               margin: 0,
               width: '100%',
               textAlign: 'center'
@@ -192,7 +193,7 @@ function Post({ show, onHide, appData }) {
             }}
             onMouseEnter={(e) => {
               e.target.style.backgroundColor = '#f3f4f6';
-              e.target.style.color = '#1e3a5f';
+              e.target.style.color = 'var(--color-bark)';
             }}
             onMouseLeave={(e) => {
               e.target.style.backgroundColor = 'transparent';
@@ -219,34 +220,52 @@ function Post({ show, onHide, appData }) {
               borderBottom: '1px solid #e5e7eb'
             }}
           >
-            <div
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                backgroundColor: '#4285f4',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                fontWeight: '600',
-                fontSize: '16px',
-                marginRight: '12px',
-                flexShrink: 0
-              }}
-            >
-              U
-            </div>
+            {appData?.userData?.user?.profilePictureUrl ? (
+              <AuthMediaViewer
+                src={appData.userData.user.profilePictureUrl}
+                token={appData?.userData?.token}
+                alt="Your profile picture"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  marginRight: '12px',
+                  flexShrink: 0,
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  fontSize: '16px',
+                  marginRight: '12px',
+                  flexShrink: 0,
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
+                {(appData?.userData?.user?.name || appData?.userData?.user?.email || 'U').charAt(0).toUpperCase()}
+              </div>
+            )}
             <div style={{ flexGrow: 1 }}>
               <div
                 style={{
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   marginBottom: '2px'
                 }}
               >
-                Username
+                {appData?.userData?.user?.name || appData?.userData?.user?.email || 'User'}
               </div>
               <div
                 style={{
@@ -254,7 +273,7 @@ function Post({ show, onHide, appData }) {
                   color: '#6b7280'
                 }}
               >
-                <select
+                {/* <select
                   disabled={loading}
                   style={{
                     border: 'none',
@@ -269,7 +288,7 @@ function Post({ show, onHide, appData }) {
                 >
                   <option>Public</option>
                   <option>Friends</option>
-                </select>
+                </select> */}
               </div>
             </div>
           </div>
@@ -310,7 +329,7 @@ function Post({ show, onHide, appData }) {
                   borderRadius: '8px',
                   fontSize: '14px',
                   fontWeight: '600',
-                  color: '#1e3a5f',
+                  color: 'var(--color-bark)',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease'
                 }}
@@ -398,7 +417,7 @@ function Post({ show, onHide, appData }) {
               style={{
                 padding: '10px 24px',
                 background: postText.trim()
-                  ? 'linear-gradient(135deg, #4285f4 0%, #1e3a5f 100%)'
+                  ? 'linear-gradient(135deg, var(--color-forest) 0%, var(--color-bark) 100%)'
                   : 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
                 border: 'none',
                 borderRadius: '8px',
@@ -408,7 +427,7 @@ function Post({ show, onHide, appData }) {
                 cursor: postText.trim() ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s ease',
                 boxShadow: postText.trim()
-                  ? '0 2px 8px rgba(66, 133, 244, 0.3)'
+                  ? 'var(--shadow-sm)'
                   : 'none',
                 opacity: postText.trim() ? 1 : 0.6
               }}
@@ -416,13 +435,13 @@ function Post({ show, onHide, appData }) {
               onMouseEnter={(e) => {
                 if (postText.trim()) {
                   e.target.style.transform = 'translateY(-1px)';
-                  e.target.style.boxShadow = '0 4px 12px rgba(66, 133, 244, 0.4)';
+                  e.target.style.boxShadow = 'var(--shadow-hover)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (postText.trim()) {
                   e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 2px 8px rgba(66, 133, 244, 0.3)';
+                  e.target.style.boxShadow = 'var(--shadow-sm)';
                 }
               }}
               onClick={handlePost}

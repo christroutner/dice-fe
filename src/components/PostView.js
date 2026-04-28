@@ -69,7 +69,7 @@ function PostView({ appData }) {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: 'linear-gradient(135deg, #1e3a5f 0%, #2d4a6b 50%, #1a2f4a 100%)',
+        background: 'radial-gradient(circle at 75% 25%, color-mix(in srgb, var(--color-forest) 85%, var(--color-bark)), var(--color-bark) 100%)',
         padding: 0,
         position: 'relative',
         overflow: 'hidden'
@@ -83,7 +83,7 @@ function PostView({ appData }) {
           right: '-10%',
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-gold) 18%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
@@ -95,7 +95,7 @@ function PostView({ appData }) {
           left: '-10%',
           width: '500px',
           height: '500px',
-          background: 'radial-gradient(circle, rgba(66, 133, 244, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--color-forest) 16%, transparent) 0%, transparent 70%)',
           borderRadius: '50%',
           zIndex: 0
         }}
